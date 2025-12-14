@@ -18,6 +18,11 @@ const {
   detectSuspiciousPatterns
 } = require('./timeline-analyzer');
 const { exportAllFormats } = require('./report-exporter');
+const {
+  importAllIntelligence,
+  exportIntelligence,
+  validateIntelligenceFile
+} = require('./intelligence-importer');
 
 const SUPPORTED_CHAINS = [
   { title: 'Ethereum Mainnet', value: 'ETH_MAINNET_RPC', type: 'evm' },
@@ -45,7 +50,9 @@ async function main() {
       { title: '⚠️  Detect Suspicious Patterns', value: 'patterns' },
       { title: '📁 Register Known Event', value: 'event' },
       { title: '📚 List Known Events', value: 'list-events' },
-      { title: '📄 Generate Forensic Report', value: 'report' }
+      { title: '📄 Generate Forensic Report', value: 'report' },
+      { title: '📥 Import Threat Intelligence', value: 'import' },
+      { title: '📤 Export Intelligence Database', value: 'export' }
     ]
   });
 
@@ -81,6 +88,12 @@ async function main() {
       break;
     case 'report':
       await generateReport();
+      break;
+    case 'import':
+      await importIntelligence();
+      break;
+    case 'export':
+      await exportIntelligenceData();
       break;
   }
 }
@@ -368,6 +381,92 @@ async function generateReport() {
   });
 
   console.log('\n✅ Forensic report generation complete!');
+}
+
+async function importIntelligence() {
+  console.log('\n📥 IMPORT THREAT INTELLIGENCE\n');
+
+  const choice = await prompts({
+    type: 'select',
+    name: 'value',
+    message: 'What would you like to import?',
+    choices: [
+      { title: 'Import All (Events + Addresses)', value: 'all' },
+      { title: 'Import Events Only', value: 'events' },
+      { title: 'Import Addresses Only', value: 'addresses' },
+      { title: 'Import from Custom File', value: 'custom' }
+    ]
+  });
+
+  if (!choice.value) return;
+
+  if (choice.value === 'all') {
+    importAllIntelligence();
+  } else if (choice.value === 'custom') {
+    const filePath = await prompts({
+      type: 'text',
+      name: 'value',
+      message: 'Enter path to intelligence file:'
+    });
+
+    if (!filePath.value) return;
+
+    const fileType = await prompts({
+      type: 'select',
+      name: 'value',
+      message: 'File type:',
+      choices: [
+        { title: 'Events', value: 'events' },
+        { title: 'Addresses', value: 'addresses' }
+      ]
+    });
+
+    if (!fileType.value) return;
+
+    const { importKnownEvents, importKnownAddresses } = require('./intelligence-importer');
+
+    if (fileType.value === 'events') {
+      importKnownEvents(filePath.value);
+    } else {
+      importKnownAddresses(filePath.value);
+    }
+  } else {
+    const path = require('path');
+    const intelligenceDir = path.join(__dirname, '..', 'intelligence');
+    const { importKnownEvents, importKnownAddresses } = require('./intelligence-importer');
+
+    if (choice.value === 'events') {
+      importKnownEvents(path.join(intelligenceDir, 'known-events.json'));
+    } else {
+      importKnownAddresses(path.join(intelligenceDir, 'known-addresses.json'));
+    }
+  }
+}
+
+async function exportIntelligenceData() {
+  console.log('\n📤 EXPORT INTELLIGENCE DATABASE\n');
+
+  const outputDir = await prompts({
+    type: 'text',
+    name: 'value',
+    message: 'Output directory:',
+    initial: './intelligence-export'
+  });
+
+  if (!outputDir.value) return;
+
+  console.log('\nExporting your intelligence database...');
+  console.log('This will include all events and addresses you have tagged.\n');
+
+  const results = exportIntelligence(outputDir.value);
+
+  console.log('\n✅ Intelligence export complete!');
+  console.log(`\nExported:`);
+  console.log(`  - ${results.eventsCount} events`);
+  console.log(`  - ${results.addressesCount} addresses`);
+  console.log(`\nFiles saved to: ${outputDir.value}/`);
+  console.log('\nYou can share these files with other investigators or');
+  console.log('import them into another instance of this toolkit.');
 }
 
 main().catch(error => {

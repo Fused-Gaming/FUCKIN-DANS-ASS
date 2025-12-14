@@ -454,6 +454,7 @@ copyright notice and this permission notice appear in all copies.
 <div align="center">
 
 ### ⭐ Star this repository if you find it useful!
+[r/BlockchainForensic](https://reddit.com/r/BlockchainForensic/)
 
 **Built to expose financial crimes through irrefutable blockchain evidence.**
 

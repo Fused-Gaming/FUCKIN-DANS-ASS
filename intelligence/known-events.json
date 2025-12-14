@@ -1,0 +1,107 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-12-13",
+  "description": "Catalog of known blockchain security incidents, hacks, exploits, and fraud operations",
+  "events": [
+    {
+      "eventName": "Ronin Bridge Hack",
+      "eventType": "hack",
+      "eventDate": "2022-03-23",
+      "chainName": "Ethereum Mainnet",
+      "description": "North Korean Lazarus Group exploited Ronin Network bridge validators, draining 173,600 ETH and 25.5M USDC",
+      "estimatedLoss": "$625,000,000",
+      "primaryAddress": "0x098B716B8Aaf21512996dC57EB0615e2383E2f96",
+      "referenceUrl": "https://www.elliptic.co/blog/the-625-million-ronin-bridge-hack"
+    },
+    {
+      "eventName": "Poly Network Hack",
+      "eventType": "exploit",
+      "eventDate": "2021-08-10",
+      "chainName": "Ethereum Mainnet",
+      "description": "Cross-chain protocol exploit allowing attacker to mint unlimited tokens across multiple chains",
+      "estimatedLoss": "$611,000,000",
+      "primaryAddress": "0xC8a65Fadf0e0dDAf421F28FEAb69Bf6E2E589FAb",
+      "referenceUrl": "https://www.elliptic.co/blog/poly-network-hack-the-largest-defi-exploit-ever"
+    },
+    {
+      "eventName": "FTX Exchange Hack",
+      "eventType": "hack",
+      "eventDate": "2022-11-11",
+      "chainName": "Ethereum Mainnet",
+      "description": "Unauthorized withdrawals during FTX bankruptcy proceedings, suspected insider job",
+      "estimatedLoss": "$477,000,000",
+      "primaryAddress": "0x59ABf3837Fa962d6853b4Cc0a19513AA031fd32b",
+      "referenceUrl": "https://www.elliptic.co/blog/ftx-hacked-for-473-million"
+    },
+    {
+      "eventName": "Wormhole Bridge Exploit",
+      "eventType": "exploit",
+      "eventDate": "2022-02-02",
+      "chainName": "Ethereum Mainnet",
+      "description": "Signature verification vulnerability allowed minting of 120,000 wrapped ETH on Solana",
+      "estimatedLoss": "$325,000,000",
+      "primaryAddress": "0x629e7Da20197a5429d30da36E77d06CdF796b71A",
+      "referenceUrl": "https://www.elliptic.co/blog/325-million-stolen-in-wormhole-exploit"
+    },
+    {
+      "eventName": "Nomad Bridge Hack",
+      "eventType": "exploit",
+      "eventDate": "2022-08-01",
+      "chainName": "Ethereum Mainnet",
+      "description": "Smart contract vulnerability allowed anyone to withdraw funds, resulting in mass draining",
+      "estimatedLoss": "$190,000,000",
+      "primaryAddress": "0xa8c83b1b30291a2a2e3b912e661115fbab31b4f9",
+      "referenceUrl": "https://www.elliptic.co/blog/nomad-bridge-hack"
+    },
+    {
+      "eventName": "Beanstalk Governance Attack",
+      "eventType": "exploit",
+      "eventDate": "2022-04-17",
+      "chainName": "Ethereum Mainnet",
+      "description": "Flash loan governance attack allowing attacker to pass malicious proposal",
+      "estimatedLoss": "$182,000,000",
+      "primaryAddress": "0x1c5dCdd006EA78a7E4783f9e6021C32935a10fb4",
+      "referenceUrl": "https://www.elliptic.co/blog/beanstalk-loses-182m-in-governance-attack"
+    },
+    {
+      "eventName": "Euler Finance Hack",
+      "eventType": "exploit",
+      "eventDate": "2023-03-13",
+      "chainName": "Ethereum Mainnet",
+      "description": "Donation attack exploiting lending protocol's health check mechanism",
+      "estimatedLoss": "$197,000,000",
+      "primaryAddress": "0xb66cd966670d962C227B3EABA30a872DbFa5675a",
+      "referenceUrl": "https://www.elliptic.co/blog/euler-finance-hacked-for-197-million"
+    },
+    {
+      "eventName": "Mango Markets Exploit",
+      "eventType": "market-manipulation",
+      "eventDate": "2022-10-11",
+      "chainName": "Solana Mainnet",
+      "description": "Price oracle manipulation allowing attacker to drain liquidity from Solana DEX",
+      "estimatedLoss": "$116,000,000",
+      "primaryAddress": "4ND8FVPjUGGjx9VuGFuJefDWpg3THb58c277hbEBDA",
+      "referenceUrl": "https://www.elliptic.co/blog/mango-markets-exploited-for-116-million"
+    },
+    {
+      "eventName": "Harmony Bridge Hack",
+      "eventType": "hack",
+      "eventDate": "2022-06-23",
+      "chainName": "Ethereum Mainnet",
+      "description": "Compromised private keys of Horizon bridge validators",
+      "estimatedLoss": "$100,000,000",
+      "primaryAddress": "0x0d043128146654C7683Fbf30ac98D7B2285DeD00",
+      "referenceUrl": "https://www.elliptic.co/blog/harmony-one-blockchain-bridge-loses-100m-in-hack"
+    },
+    {
+      "eventName": "BitMart Exchange Hack",
+      "eventType": "hack",
+      "eventDate": "2021-12-04",
+      "chainName": "Ethereum Mainnet",
+      "description": "Hot wallet private key compromise leading to withdrawal of multiple tokens",
+      "estimatedLoss": "$196,000,000",
+      "primaryAddress": "0x68b22215ff74e3606bd5e6c1de8c79490e0a85b5",
+      "referenceUrl": "https://www.elliptic.co/blog/bitmart-hack"
+    }
+  ]
+}

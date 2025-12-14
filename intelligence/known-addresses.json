@@ -1,0 +1,172 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-12-13",
+  "description": "Database of known addresses tagged with attribution, risk levels, and evidence sources",
+  "addresses": [
+    {
+      "address": "0x098B716B8Aaf21512996dC57EB0615e2383E2f96",
+      "chainType": "evm",
+      "label": "Ronin Bridge Hacker",
+      "category": "hack",
+      "riskLevel": "critical",
+      "description": "Primary address used in $625M Ronin Network bridge hack (March 2022). Linked to North Korean Lazarus Group.",
+      "source": "Chainalysis, Elliptic",
+      "relatedEvent": "Ronin Bridge Hack",
+      "dateTagged": "2022-03-23"
+    },
+    {
+      "address": "0xC8a65Fadf0e0dDAf421F28FEAb69Bf6E2E589FAb",
+      "chainType": "evm",
+      "label": "Poly Network Exploiter",
+      "category": "exploit",
+      "riskLevel": "critical",
+      "description": "Exploiter address from $611M Poly Network hack. Funds were later returned.",
+      "source": "SlowMist, PeckShield",
+      "relatedEvent": "Poly Network Hack",
+      "dateTagged": "2021-08-10"
+    },
+    {
+      "address": "0x59ABf3837Fa962d6853b4Cc0a19513AA031fd32b",
+      "chainType": "evm",
+      "label": "FTX Hacker",
+      "category": "hack",
+      "riskLevel": "critical",
+      "description": "Address that drained $477M from FTX during bankruptcy proceedings. Suspected insider.",
+      "source": "Elliptic, Chainalysis",
+      "relatedEvent": "FTX Exchange Hack",
+      "dateTagged": "2022-11-11"
+    },
+    {
+      "address": "0x629e7Da20197a5429d30da36E77d06CdF796b71A",
+      "chainType": "evm",
+      "label": "Wormhole Bridge Exploiter",
+      "category": "exploit",
+      "riskLevel": "critical",
+      "description": "Exploiter of Wormhole bridge vulnerability, minted 120K wrapped ETH on Solana ($325M).",
+      "source": "Certora, Chainalysis",
+      "relatedEvent": "Wormhole Bridge Exploit",
+      "dateTagged": "2022-02-02"
+    },
+    {
+      "address": "0x12D66f87A04A9E220743712cE6d9bB1B5616B8Fc",
+      "chainType": "evm",
+      "label": "Tornado Cash - 0.1 ETH Pool",
+      "category": "mixer",
+      "riskLevel": "high",
+      "description": "Tornado Cash mixing contract for 0.1 ETH deposits. OFAC sanctioned August 2022.",
+      "source": "OFAC Sanctions List",
+      "relatedEvent": null,
+      "dateTagged": "2022-08-08"
+    },
+    {
+      "address": "0x47CE0C6eD5B0Ce3d3A51fdb1C52DC66a7c3c2936",
+      "chainType": "evm",
+      "label": "Tornado Cash - 1 ETH Pool",
+      "category": "mixer",
+      "riskLevel": "high",
+      "description": "Tornado Cash mixing contract for 1 ETH deposits. OFAC sanctioned.",
+      "source": "OFAC Sanctions List",
+      "relatedEvent": null,
+      "dateTagged": "2022-08-08"
+    },
+    {
+      "address": "0x910Cbd523D972eb0a6f4cAe4618aD62622b39DbF",
+      "chainType": "evm",
+      "label": "Tornado Cash - 10 ETH Pool",
+      "category": "mixer",
+      "riskLevel": "high",
+      "description": "Tornado Cash mixing contract for 10 ETH deposits. OFAC sanctioned.",
+      "source": "OFAC Sanctions List",
+      "relatedEvent": null,
+      "dateTagged": "2022-08-08"
+    },
+    {
+      "address": "0xa8c83b1b30291a2a2e3b912e661115fbab31b4f9",
+      "chainType": "evm",
+      "label": "Nomad Bridge Exploiter #1",
+      "category": "exploit",
+      "riskLevel": "critical",
+      "description": "One of many addresses that participated in draining Nomad bridge ($190M total).",
+      "source": "Nomad Team, Chainalysis",
+      "relatedEvent": "Nomad Bridge Hack",
+      "dateTagged": "2022-08-01"
+    },
+    {
+      "address": "0x1c5dCdd006EA78a7E4783f9e6021C32935a10fb4",
+      "chainType": "evm",
+      "label": "Beanstalk Governance Attacker",
+      "category": "exploit",
+      "riskLevel": "critical",
+      "description": "Flash loan governance attack on Beanstalk protocol ($182M).",
+      "source": "Beanstalk Team, PeckShield",
+      "relatedEvent": "Beanstalk Governance Attack",
+      "dateTagged": "2022-04-17"
+    },
+    {
+      "address": "0xb66cd966670d962C227B3EABA30a872DbFa5675a",
+      "chainType": "evm",
+      "label": "Euler Finance Exploiter",
+      "category": "exploit",
+      "riskLevel": "critical",
+      "description": "Donation attack on Euler Finance lending protocol ($197M). Later negotiated return.",
+      "source": "Euler Team, BlockSec",
+      "relatedEvent": "Euler Finance Hack",
+      "dateTagged": "2023-03-13"
+    },
+    {
+      "address": "0x0d043128146654C7683Fbf30ac98D7B2285DeD00",
+      "chainType": "evm",
+      "label": "Harmony Bridge Hacker",
+      "category": "hack",
+      "riskLevel": "critical",
+      "description": "Compromised Harmony Horizon bridge multisig validators ($100M). Linked to Lazarus Group.",
+      "source": "Harmony Team, Chainalysis",
+      "relatedEvent": "Harmony Bridge Hack",
+      "dateTagged": "2022-06-23"
+    },
+    {
+      "address": "0x68b22215ff74e3606bd5e6c1de8c79490e0a85b5",
+      "chainType": "evm",
+      "label": "BitMart Hot Wallet Hacker",
+      "category": "hack",
+      "riskLevel": "critical",
+      "description": "Compromised BitMart exchange hot wallet private keys ($196M).",
+      "source": "BitMart Team, PeckShield",
+      "relatedEvent": "BitMart Exchange Hack",
+      "dateTagged": "2021-12-04"
+    },
+    {
+      "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "chainType": "evm",
+      "label": "Bitfinex 2016 Hack Funds",
+      "category": "hack",
+      "riskLevel": "critical",
+      "description": "Address associated with 2016 Bitfinex hack funds movement. $3.6B recovered by DOJ in 2022.",
+      "source": "US DOJ, Chainalysis",
+      "relatedEvent": null,
+      "dateTagged": "2016-08-02"
+    },
+    {
+      "address": "0xDA9dfA130Df4dE4673b89022EE50ff26f6EA73Cf",
+      "chainType": "evm",
+      "label": "Coincheck Hack Funds Launderer",
+      "category": "intermediary",
+      "riskLevel": "high",
+      "description": "Address used to launder funds from 2018 Coincheck hack ($534M NEM).",
+      "source": "Chainalysis",
+      "relatedEvent": null,
+      "dateTagged": "2018-01-26"
+    },
+    {
+      "address": "0x176F3DAb24a159341c0509bB36B833E7fdd0a132",
+      "chainType": "evm",
+      "label": "Phishing Scam - Fake Airdrop",
+      "category": "phishing",
+      "riskLevel": "high",
+      "description": "Known phishing address impersonating legitimate airdrops. Multiple victims.",
+      "source": "Scam Sniffer",
+      "relatedEvent": null,
+      "dateTagged": "2023-06-15"
+    }
+  ]
+}
