@@ -1,0 +1,21 @@
+{
+  "name": "alchemy-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "getContracts": "node getWalletContracts/index.js",
+    "viewHistory": "node viewHistory/index.js",
+    "forensics": "node forensics/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^12.5.0",
+    "dotenv": "^17.2.3",
+    "play-sound": "^1.1.6",
+    "prompts": "^2.4.2"
+  }
+}
