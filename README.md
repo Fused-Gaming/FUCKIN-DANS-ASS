@@ -64,15 +64,19 @@ Traditional blockchain explorers provide raw data. This toolkit provides **actio
 
 - **Transaction History Collection** - Complete on-chain data gathering across 15+ networks
 - **Address Attribution & Tagging** - Label known criminals, victims, and intermediaries
+- **Etherscan Label Auto-Import** - Automatic public & private tag import from Etherscan
+- **MCP Integration** - AI-powered blockchain analysis via Model Context Protocol
 - **Timeline Analysis** - Reconstruct event sequences with millisecond precision
 - **Fund Flow Tracing** - Multi-hop tracking through mixers and exchanges
 - **Pattern Detection** - Automated identification of suspicious behaviors
 - **Event Registry** - Catalog known hacks, scams, and fraud operations
 - **Address Clustering** - Group related wallets with confidence scoring
+- **Investigation Management** - Full case tracking with evidence and timeline management
 
 ### 📊 Evidence & Reporting
 
-- **Multi-Format Export** - JSON (data), CSV (spreadsheet), Markdown (readable)
+- **Multi-Format Export** - JSON, CSV, Markdown, HTML reports
+- **Investigation Reports** - Professional ZIP archives with full documentation
 - **Court-Ready Reports** - Professional documentation with source citations
 - **Chain-of-Custody** - Immutable blockchain verification for all evidence
 - **Executive Summaries** - High-level overviews for non-technical stakeholders
@@ -83,6 +87,8 @@ Traditional blockchain explorers provide raw data. This toolkit provides **actio
 - **Persistent Attribution** - Build institutional knowledge over time
 - **Query History** - Track investigations and revisit past analyses
 - **Cross-Reference** - Link addresses across multiple investigations
+- **Database Views** - Pre-built queries for common forensic analysis
+- **Interactive Browser** - CLI tool for exploring forensic data
 
 ---
 
@@ -90,9 +96,10 @@ Traditional blockchain explorers provide raw data. This toolkit provides **actio
 
 ### Prerequisites
 
-- **Node.js** v16.0.0 or higher
+- **Node.js** v16.0.0 or higher (v18+ recommended for MCP)
 - **npm** v7.0.0 or higher
 - **Alchemy API Key** ([Get one free](https://www.alchemy.com/))
+- **Etherscan API Key** ([Get one free](https://etherscan.io/apis)) - Required for label imports
 
 ### Setup
 
@@ -106,7 +113,9 @@ npm install
 
 # Configure environment
 cp .env.example .env
-# Edit .env and add your ALCHEMY_API_KEY
+# Edit .env and add your API keys:
+# - ETHERSCAN_API_KEY (required for auto-import)
+# - INVESTIGATOR_NAME, EMAIL, etc. (required for reports)
 ```
 
 ### Verify Installation
@@ -299,6 +308,13 @@ npm run forensics
 - **[Investigation Examples](docs/INVESTIGATION_EXAMPLES.md)** - 5 real-world workflows
 - **[Project Summary](docs/SUMMARY.md)** - Mission and capabilities overview
 
+### Feature Documentation
+
+- **[MCP Integration Guide](MCP_INTEGRATION.md)** - AI-powered blockchain analysis setup
+- **[Etherscan Auto-Import](ETHERSCAN_AUTO_IMPORT.md)** - Automatic label import documentation
+- **[Database Setup](DATABASE_SETUP.md)** - Database browser and query guide
+- **[Database README](database/README.md)** - Complete database documentation
+
 ### Additional Resources
 
 - **[Contributing Guide](CONTRIBUTING.md)** - How to contribute code or intelligence
@@ -312,29 +328,39 @@ npm run forensics
 
 ```
 FUCKIN-DANS-ASS/
-├── forensics/                    # Core forensic toolkit
-│   ├── index.js                  # Interactive CLI
-│   ├── transaction-fetcher.js    # On-chain data collection
-│   ├── attribution-manager.js    # Address tagging system
-│   ├── timeline-analyzer.js      # Event reconstruction
-│   └── report-exporter.js        # Evidence generation
+├── forensics/                       # Core forensic toolkit
+│   ├── index.js                     # Interactive CLI
+│   ├── transaction-fetcher.js       # On-chain data collection + auto-import
+│   ├── attribution-manager.js       # Address tagging system
+│   ├── timeline-analyzer.js         # Event reconstruction
+│   ├── report-exporter.js           # Evidence generation
+│   ├── etherscan-label-importer.js  # Etherscan API v2 integration
+│   ├── intelligence-importer.js     # Threat intelligence imports
+│   └── investigation-reporter.js    # Investigation report generator
 ├── database/
-│   └── db.js                     # SQLite schema & queries
-├── docs/                         # Comprehensive documentation
+│   ├── db.js                        # SQLite schema & queries
+│   ├── sql-browser.js               # Interactive database browser
+│   ├── README.md                    # Database documentation
+│   └── USEFUL_QUERIES.sql           # 50+ pre-built forensic queries
+├── docs/                            # Comprehensive documentation
 │   ├── FORENSICS_GUIDE.md
 │   ├── INVESTIGATION_EXAMPLES.md
 │   ├── QUICK_START.md
 │   └── SUMMARY.md
-├── getWalletContracts/           # Basic wallet queries
-├── viewHistory/                  # Investigation history viewer
-├── voice/                        # Optional narrator system
-├── .env.example                  # Environment template
-├── package.json                  # Dependencies & scripts
-├── README.md                     # This file
-├── CONTRIBUTING.md               # Contribution guidelines
-├── SECURITY.md                   # Security policy
-├── CODE_OF_CONDUCT.md            # Community standards
-└── LICENSE                       # ISC License
+├── getWalletContracts/              # Basic wallet queries
+├── viewHistory/                     # Investigation history viewer
+├── voice/                           # Optional narrator system
+├── .env.example                     # Environment template
+├── .mcp.json                        # MCP server configuration
+├── MCP_INTEGRATION.md               # MCP setup guide
+├── ETHERSCAN_AUTO_IMPORT.md         # Auto-import documentation
+├── DATABASE_SETUP.md                # Database quick start
+├── package.json                     # Dependencies & scripts
+├── README.md                        # This file
+├── CONTRIBUTING.md                  # Contribution guidelines
+├── SECURITY.md                      # Security policy
+├── CODE_OF_CONDUCT.md               # Community standards
+└── LICENSE                          # ISC License
 ```
 
 ---
@@ -437,8 +463,11 @@ copyright notice and this permission notice appear in all copies.
 ## 🙏 Acknowledgments
 
 - **Alchemy** - Multi-chain RPC infrastructure
+- **Etherscan** - Blockchain explorer and API services
 - **Better-SQLite3** - Fast, synchronous SQLite database
+- **Archiver** - ZIP archive creation for report bundling
 - **Node.js Community** - Excellent tooling ecosystem
+- **Model Context Protocol** - AI integration framework
 - **Blockchain Security Researchers** - Pioneering on-chain forensics
 
 ---

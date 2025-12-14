@@ -1,18 +1,32 @@
 {
-  "name": "alchemy-api",
-  "version": "1.0.0",
-  "description": "",
+  "name": "blockchain-forensic-toolkit",
+  "version": "2.0.0",
+  "description": "Professional blockchain forensic analysis toolkit with Etherscan integration, investigation management, and MCP support",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "getContracts": "node getWalletContracts/index.js",
     "viewHistory": "node viewHistory/index.js",
-    "forensics": "node forensics/index.js"
+    "forensics": "node forensics/index.js",
+    "db": "node database/sql-browser.js",
+    "db:browser": "node database/sql-browser.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "blockchain",
+    "forensics",
+    "ethereum",
+    "etherscan",
+    "investigation",
+    "crypto",
+    "security",
+    "threat-intelligence",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "author": "Fused-Gaming",
   "license": "ISC",
   "dependencies": {
+    "archiver": "^7.0.1",
     "better-sqlite3": "^12.5.0",
     "dotenv": "^17.2.3",
     "play-sound": "^1.1.6",

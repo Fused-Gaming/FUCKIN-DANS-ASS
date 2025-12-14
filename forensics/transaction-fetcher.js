@@ -1,6 +1,59 @@
 // Transaction history fetcher for forensic analysis
 require('dotenv').config();
 const { saveTransactionsBatch } = require('../database/db');
+const { importAddressLabels } = require('./etherscan-label-importer');
+
+const SOLANA_TRANSFER_TYPES = new Set([
+  'transfer',
+  'transferchecked',
+  'transfercheckedwithfee',
+  'transfercheckedwithfeev2',
+  'transferwithseed'
+]);
+
+function flattenSolanaInstructions(tx) {
+  const main = tx?.transaction?.message?.instructions || [];
+  const inner = (tx?.meta?.innerInstructions || []).flatMap(i => i.instructions || []);
+  return [...main, ...inner];
+}
+
+function deriveSolanaParticipants(tx) {
+  const instructions = flattenSolanaInstructions(tx).filter(instr => instr?.parsed);
+
+  for (const instr of instructions) {
+    const parsed = instr.parsed || {};
+    const type = (parsed.type || '').toLowerCase();
+
+    if (!SOLANA_TRANSFER_TYPES.has(type)) continue;
+
+    const info = parsed.info || {};
+
+    const from = info.source || info.authority || info.owner || info.wallet || info.from || info.multisigAuthority || null;
+    const to = info.destination || info.account || info.recipient || info.to || null;
+    const amount = info.lamports || info.amount || info.tokenAmount?.amount || info.tokenAmount?.uiAmountString || null;
+    const contractAddress = info.mint || info.programId || null;
+
+    return {
+      from,
+      to,
+      amount: amount ? amount.toString() : '0',
+      contractAddress,
+      methodId: parsed.type || null
+    };
+  }
+
+  const accountKeys = tx?.transaction?.message?.accountKeys || [];
+  const fallbackFrom = accountKeys[0]?.pubkey || accountKeys[0] || null;
+  const fallbackTo = accountKeys[1]?.pubkey || accountKeys[1] || null;
+
+  return {
+    from: fallbackFrom,
+    to: fallbackTo,
+    amount: '0',
+    contractAddress: null,
+    methodId: null
+  };
+}
 
 /**
  * Fetch transaction history for an address using Alchemy
@@ -124,6 +177,92 @@ async function fetchTransactionHistory(address, rpcUrl, chainName, options = {})
   return transactions;
 }
 
+async function fetchSolanaTransaction(signature, rpcUrl) {
+  const requestBody = {
+    jsonrpc: "2.0",
+    id: 1,
+    method: "getTransaction",
+    params: [signature, { encoding: "jsonParsed", maxSupportedTransactionVersion: 0 }]
+  };
+
+  const response = await fetch(rpcUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(requestBody)
+  });
+
+  const data = await response.json();
+  return data.result;
+}
+
+async function fetchSolanaTransactionHistory(address, rpcUrl, chainName, options = {}) {
+  const { maxCount = 500 } = options;
+
+  console.log(`\nFetching transaction history for ${address} on ${chainName} (Solana)...`);
+
+  const allTransactions = [];
+  let before = undefined;
+
+  while (allTransactions.length < maxCount) {
+    const limit = Math.min(1000, maxCount - allTransactions.length);
+    const requestBody = {
+      jsonrpc: "2.0",
+      id: 1,
+      method: "getSignaturesForAddress",
+      params: [address, { limit, ...(before ? { before } : {}) }]
+    };
+
+    const response = await fetch(rpcUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestBody)
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("Error fetching signatures:", data.error);
+      break;
+    }
+
+    const signatures = data.result || [];
+    if (signatures.length === 0) break;
+
+    before = signatures[signatures.length - 1].signature;
+
+    for (const sigObj of signatures) {
+      if (allTransactions.length >= maxCount) break;
+
+      const tx = await fetchSolanaTransaction(sigObj.signature, rpcUrl);
+      if (!tx) continue;
+
+      const participants = deriveSolanaParticipants(tx);
+      const blockTime = tx.blockTime ? new Date(tx.blockTime * 1000).toISOString() : null;
+
+      allTransactions.push({
+        hash: sigObj.signature,
+        chainName,
+        blockNumber: tx.slot || null,
+        timestamp: blockTime,
+        from: participants.from,
+        to: participants.to,
+        value: participants.amount,
+        gasUsed: tx.meta?.fee?.toString() || null,
+        gasPrice: null,
+        input: null,
+        contractAddress: participants.contractAddress || null,
+        status: tx.meta?.err ? 0 : 1,
+        methodId: participants.methodId
+      });
+    }
+
+    if (signatures.length < limit) break;
+  }
+
+  console.log(`\nTotal Solana transactions found: ${allTransactions.length}`);
+  return allTransactions;
+}
+
 /**
  * Fetch detailed transaction receipts for forensic analysis
  */
@@ -203,6 +342,53 @@ async function fetchTransactionDetails(txHash, rpcUrl, chainName) {
 }
 
 /**
+ * Extract unique addresses from transactions and import Etherscan labels
+ */
+async function importLabelsForAddresses(transactions, chainName) {
+  const uniqueAddresses = new Set();
+
+  // Collect all unique addresses from transactions
+  for (const tx of transactions) {
+    if (tx.from) uniqueAddresses.add(tx.from.toLowerCase());
+    if (tx.to) uniqueAddresses.add(tx.to.toLowerCase());
+    if (tx.contractAddress) uniqueAddresses.add(tx.contractAddress.toLowerCase());
+  }
+
+  const addressList = Array.from(uniqueAddresses);
+
+  if (addressList.length === 0) {
+    return;
+  }
+
+  console.log(`\nImporting Etherscan labels for ${addressList.length} unique addresses...`);
+
+  // Import labels for each address (includes both public and private tags)
+  let imported = 0;
+  for (const addr of addressList) {
+    try {
+      const result = await importAddressLabels(addr, chainName, {
+        includePrivateTags: true,
+        silent: true
+      });
+      if (result && result.imported > 0) {
+        imported += result.imported;
+      }
+      // Small delay to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 200));
+    } catch (error) {
+      // Continue on error - some addresses may not have labels
+      continue;
+    }
+  }
+
+  if (imported > 0) {
+    console.log(`✓ Imported ${imported} labels from Etherscan`);
+  } else {
+    console.log('No Etherscan labels found for these addresses');
+  }
+}
+
+/**
  * Fetch and store complete transaction history for an address
  */
 async function collectAddressHistory(address, rpcUrl, chainName, options = {}) {
@@ -219,9 +405,32 @@ async function collectAddressHistory(address, rpcUrl, chainName, options = {}) {
     saveTransactionsBatch(transactions);
     console.log(`Successfully saved ${transactions.length} transactions.`);
 
+    // Import Etherscan labels for all addresses in transactions
+    await importLabelsForAddresses(transactions, chainName);
+
     return transactions;
   } catch (error) {
     console.error('Error collecting address history:', error);
+    throw error;
+  }
+}
+
+async function collectSolanaAddressHistory(address, rpcUrl, chainName, options = {}) {
+  try {
+    const transactions = await fetchSolanaTransactionHistory(address, rpcUrl, chainName, options);
+
+    if (transactions.length === 0) {
+      console.log('No transactions found.');
+      return [];
+    }
+
+    console.log('\nSaving transactions to database...');
+    saveTransactionsBatch(transactions);
+    console.log(`Successfully saved ${transactions.length} transactions.`);
+
+    return transactions;
+  } catch (error) {
+    console.error('Error collecting Solana address history:', error);
     throw error;
   }
 }
@@ -269,5 +478,7 @@ module.exports = {
   fetchTransactionHistory,
   fetchTransactionDetails,
   collectAddressHistory,
-  traceFundFlow
+  traceFundFlow,
+  fetchSolanaTransactionHistory,
+  collectSolanaAddressHistory
 };

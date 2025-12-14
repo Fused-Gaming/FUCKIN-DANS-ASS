@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "etherscan": {
+      "description": "Etherscan MCP Server for blockchain data integration",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@xiaok/etherscan-mcp-server"
+      ],
+      "env": {
+        "ETHERSCAN_API_KEY": "${ETHERSCAN_API_KEY}"
+      }
+    }
+  },
+  "version": "1.0.0",
+  "name": "Blockchain Forensic Analysis Toolkit - MCP Configuration"
+}

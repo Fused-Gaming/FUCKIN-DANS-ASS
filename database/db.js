@@ -123,6 +123,72 @@ function initializeDatabase() {
     )
   `);
 
+  // Investigations table - track forensic investigations
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS investigations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      case_id TEXT NOT NULL UNIQUE,
+      case_name TEXT NOT NULL,
+      investigator_name TEXT,
+      investigator_email TEXT,
+      investigator_organization TEXT,
+      case_status TEXT DEFAULT 'active',
+      priority TEXT DEFAULT 'medium',
+      case_type TEXT,
+      description TEXT,
+      date_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+      date_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
+      date_closed DATETIME,
+      tags TEXT,
+      notes TEXT
+    )
+  `);
+
+  // Investigation addresses - link addresses to investigations
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS investigation_addresses (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      investigation_id INTEGER NOT NULL,
+      address TEXT NOT NULL,
+      chain_type TEXT NOT NULL,
+      role TEXT,
+      notes TEXT,
+      date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (investigation_id) REFERENCES investigations(id) ON DELETE CASCADE,
+      UNIQUE(investigation_id, address)
+    )
+  `);
+
+  // Investigation evidence - attach files/links to investigations
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS investigation_evidence (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      investigation_id INTEGER NOT NULL,
+      evidence_type TEXT NOT NULL,
+      title TEXT NOT NULL,
+      description TEXT,
+      file_path TEXT,
+      url TEXT,
+      hash TEXT,
+      date_added DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (investigation_id) REFERENCES investigations(id) ON DELETE CASCADE
+    )
+  `);
+
+  // Investigation timeline - track key events in investigation
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS investigation_timeline (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      investigation_id INTEGER NOT NULL,
+      event_type TEXT NOT NULL,
+      event_description TEXT NOT NULL,
+      event_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_by TEXT,
+      metadata TEXT,
+      FOREIGN KEY (investigation_id) REFERENCES investigations(id) ON DELETE CASCADE
+    )
+  `);
+
   // Create indexes for better query performance
   db.exec(`
     CREATE INDEX IF NOT EXISTS idx_queries_timestamp ON queries(timestamp);
@@ -136,6 +202,118 @@ function initializeDatabase() {
     CREATE INDEX IF NOT EXISTS idx_tx_timestamp ON transactions(timestamp);
     CREATE INDEX IF NOT EXISTS idx_attribution_address ON address_attributions(address);
     CREATE INDEX IF NOT EXISTS idx_cluster_name ON address_clusters(cluster_name);
+    CREATE INDEX IF NOT EXISTS idx_investigation_case_id ON investigations(case_id);
+    CREATE INDEX IF NOT EXISTS idx_investigation_status ON investigations(case_status);
+    CREATE INDEX IF NOT EXISTS idx_investigation_addresses ON investigation_addresses(investigation_id);
+    CREATE INDEX IF NOT EXISTS idx_investigation_address_lookup ON investigation_addresses(address);
+  `);
+
+  // Create useful views
+  db.exec(`
+    -- View: High-risk addresses with transaction counts
+    CREATE VIEW IF NOT EXISTS v_high_risk_addresses AS
+    SELECT
+      aa.address,
+      aa.label,
+      aa.category,
+      aa.risk_level,
+      aa.description,
+      aa.source,
+      aa.date_added,
+      COUNT(DISTINCT t.tx_hash) as tx_count,
+      MIN(t.timestamp) as first_tx,
+      MAX(t.timestamp) as last_tx
+    FROM address_attributions aa
+    LEFT JOIN transactions t ON (aa.address = t.from_address OR aa.address = t.to_address)
+    WHERE aa.risk_level IN ('critical', 'high')
+    GROUP BY aa.address, aa.label, aa.category, aa.risk_level, aa.description, aa.source, aa.date_added;
+
+    -- View: Address activity summary
+    CREATE VIEW IF NOT EXISTS v_address_activity AS
+    SELECT
+      address,
+      SUM(sent_count) as transactions_sent,
+      SUM(received_count) as transactions_received,
+      SUM(sent_count + received_count) as total_transactions,
+      MIN(first_tx) as first_transaction,
+      MAX(last_tx) as last_transaction
+    FROM (
+      SELECT
+        from_address as address,
+        COUNT(*) as sent_count,
+        0 as received_count,
+        MIN(timestamp) as first_tx,
+        MAX(timestamp) as last_tx
+      FROM transactions
+      GROUP BY from_address
+      UNION ALL
+      SELECT
+        to_address as address,
+        0 as sent_count,
+        COUNT(*) as received_count,
+        MIN(timestamp) as first_tx,
+        MAX(timestamp) as last_tx
+      FROM transactions
+      GROUP BY to_address
+    )
+    GROUP BY address;
+
+    -- View: Tagged addresses with activity
+    CREATE VIEW IF NOT EXISTS v_tagged_addresses_with_activity AS
+    SELECT
+      aa.address,
+      aa.label,
+      aa.category,
+      aa.risk_level,
+      aa.source,
+      aa.description,
+      aa.date_added,
+      COALESCE(va.total_transactions, 0) as total_transactions,
+      va.first_transaction,
+      va.last_transaction
+    FROM address_attributions aa
+    LEFT JOIN v_address_activity va ON aa.address = va.address;
+
+    -- View: Investigation summary
+    CREATE VIEW IF NOT EXISTS v_investigation_summary AS
+    SELECT
+      i.id,
+      i.case_id,
+      i.case_name,
+      i.investigator_name,
+      i.case_status,
+      i.priority,
+      i.case_type,
+      i.date_created,
+      i.date_updated,
+      COUNT(DISTINCT ia.address) as address_count,
+      COUNT(DISTINCT ie.id) as evidence_count,
+      COUNT(DISTINCT it.id) as timeline_events
+    FROM investigations i
+    LEFT JOIN investigation_addresses ia ON i.id = ia.investigation_id
+    LEFT JOIN investigation_evidence ie ON i.id = ie.investigation_id
+    LEFT JOIN investigation_timeline it ON i.id = it.investigation_id
+    GROUP BY i.id, i.case_id, i.case_name, i.investigator_name, i.case_status,
+             i.priority, i.case_type, i.date_created, i.date_updated;
+
+    -- View: Etherscan imports
+    CREATE VIEW IF NOT EXISTS v_etherscan_imports AS
+    SELECT
+      address,
+      label,
+      category,
+      risk_level,
+      description,
+      source,
+      date_added,
+      CASE
+        WHEN source = 'Etherscan Private Tag' THEN 'Private'
+        WHEN source LIKE 'Etherscan%' THEN 'Public'
+        ELSE 'Other'
+      END as import_type
+    FROM address_attributions
+    WHERE source LIKE '%Etherscan%'
+    ORDER BY date_added DESC;
   `);
 }
 
@@ -469,6 +647,233 @@ function getForensicTimeline(addresses, startDate = null, endDate = null) {
   return stmt.all(...params);
 }
 
+// ============================================================================
+// INVESTIGATION MANAGEMENT FUNCTIONS
+// ============================================================================
+
+// Create new investigation
+function createInvestigation(caseId, caseName, investigatorInfo = {}) {
+  const {
+    investigatorName = process.env.INVESTIGATOR_NAME || 'Unknown',
+    investigatorEmail = process.env.INVESTIGATOR_EMAIL || '',
+    investigatorOrganization = process.env.INVESTIGATOR_ORGANIZATION || '',
+    caseType = 'general',
+    priority = 'medium',
+    description = '',
+    tags = ''
+  } = investigatorInfo;
+
+  const stmt = db.prepare(`
+    INSERT INTO investigations (
+      case_id, case_name, investigator_name, investigator_email, investigator_organization,
+      case_type, priority, description, tags
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(
+    caseId,
+    caseName,
+    investigatorName,
+    investigatorEmail,
+    investigatorOrganization,
+    caseType,
+    priority,
+    description,
+    tags
+  );
+}
+
+// Get investigation by case ID
+function getInvestigation(caseId) {
+  const stmt = db.prepare('SELECT * FROM investigations WHERE case_id = ?');
+  return stmt.get(caseId);
+}
+
+// Get all investigations
+function getAllInvestigations(status = null) {
+  let query = 'SELECT * FROM v_investigation_summary';
+  const params = [];
+
+  if (status) {
+    query += ' WHERE case_status = ?';
+    params.push(status);
+  }
+
+  query += ' ORDER BY date_created DESC';
+
+  const stmt = db.prepare(query);
+  return stmt.all(...params);
+}
+
+// Update investigation
+function updateInvestigation(caseId, updates) {
+  const allowedFields = ['case_name', 'case_status', 'priority', 'case_type', 'description', 'tags', 'notes', 'date_closed'];
+  const fields = [];
+  const values = [];
+
+  Object.keys(updates).forEach(key => {
+    if (allowedFields.includes(key)) {
+      fields.push(`${key} = ?`);
+      values.push(updates[key]);
+    }
+  });
+
+  if (fields.length === 0) return null;
+
+  fields.push('date_updated = CURRENT_TIMESTAMP');
+  values.push(caseId);
+
+  const stmt = db.prepare(`
+    UPDATE investigations
+    SET ${fields.join(', ')}
+    WHERE case_id = ?
+  `);
+
+  return stmt.run(...values);
+}
+
+// Add address to investigation
+function addInvestigationAddress(caseId, address, chainType, role = '', notes = '') {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) throw new Error(`Investigation ${caseId} not found`);
+
+  const stmt = db.prepare(`
+    INSERT OR REPLACE INTO investigation_addresses
+    (investigation_id, address, chain_type, role, notes)
+    VALUES (?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(investigation.id, address, chainType, role, notes);
+}
+
+// Get addresses for investigation
+function getInvestigationAddresses(caseId) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) return [];
+
+  const stmt = db.prepare(`
+    SELECT ia.*, aa.label, aa.category, aa.risk_level
+    FROM investigation_addresses ia
+    LEFT JOIN address_attributions aa ON ia.address = aa.address
+    WHERE ia.investigation_id = ?
+    ORDER BY ia.date_added DESC
+  `);
+
+  return stmt.all(investigation.id);
+}
+
+// Add evidence to investigation
+function addInvestigationEvidence(caseId, evidence) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) throw new Error(`Investigation ${caseId} not found`);
+
+  const {
+    evidenceType,
+    title,
+    description = '',
+    filePath = null,
+    url = null,
+    hash = null
+  } = evidence;
+
+  const stmt = db.prepare(`
+    INSERT INTO investigation_evidence
+    (investigation_id, evidence_type, title, description, file_path, url, hash)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(
+    investigation.id,
+    evidenceType,
+    title,
+    description,
+    filePath,
+    url,
+    hash
+  );
+}
+
+// Get evidence for investigation
+function getInvestigationEvidence(caseId) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) return [];
+
+  const stmt = db.prepare(`
+    SELECT * FROM investigation_evidence
+    WHERE investigation_id = ?
+    ORDER BY date_added DESC
+  `);
+
+  return stmt.all(investigation.id);
+}
+
+// Add timeline event to investigation
+function addInvestigationTimelineEvent(caseId, eventType, eventDescription, metadata = null) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) throw new Error(`Investigation ${caseId} not found`);
+
+  const stmt = db.prepare(`
+    INSERT INTO investigation_timeline
+    (investigation_id, event_type, event_description, created_by, metadata)
+    VALUES (?, ?, ?, ?, ?)
+  `);
+
+  return stmt.run(
+    investigation.id,
+    eventType,
+    eventDescription,
+    process.env.INVESTIGATOR_NAME || 'System',
+    metadata ? JSON.stringify(metadata) : null
+  );
+}
+
+// Get timeline for investigation
+function getInvestigationTimeline(caseId) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) return [];
+
+  const stmt = db.prepare(`
+    SELECT * FROM investigation_timeline
+    WHERE investigation_id = ?
+    ORDER BY event_date ASC
+  `);
+
+  return stmt.all(investigation.id);
+}
+
+// Get complete investigation data (for reports)
+function getInvestigationComplete(caseId) {
+  const investigation = getInvestigation(caseId);
+  if (!investigation) return null;
+
+  const addresses = getInvestigationAddresses(caseId);
+  const evidence = getInvestigationEvidence(caseId);
+  const timeline = getInvestigationTimeline(caseId);
+
+  // Get transactions for all addresses in investigation
+  const addressList = addresses.map(a => a.address);
+  const transactions = addressList.length > 0
+    ? getForensicTimeline(addressList)
+    : [];
+
+  return {
+    ...investigation,
+    addresses,
+    evidence,
+    timeline,
+    transactions
+  };
+}
+
+// Close investigation
+function closeInvestigation(caseId, notes = '') {
+  return updateInvestigation(caseId, {
+    case_status: 'closed',
+    date_closed: new Date().toISOString(),
+    notes
+  });
+}
+
 module.exports = {
   db,
   saveEvmQuery,
@@ -489,5 +894,18 @@ module.exports = {
   getClusterAddresses,
   getAllClusters,
   getTransactionFlow,
-  getForensicTimeline
+  getForensicTimeline,
+  // Investigation management
+  createInvestigation,
+  getInvestigation,
+  getAllInvestigations,
+  updateInvestigation,
+  addInvestigationAddress,
+  getInvestigationAddresses,
+  addInvestigationEvidence,
+  getInvestigationEvidence,
+  addInvestigationTimelineEvent,
+  getInvestigationTimeline,
+  getInvestigationComplete,
+  closeInvestigation
 };
