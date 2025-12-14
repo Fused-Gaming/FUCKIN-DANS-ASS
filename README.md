@@ -1,334 +1,462 @@
-# Blockchain Forensic Analysis Toolkit
+<div align="center">
 
-A comprehensive toolkit for blockchain forensic investigations, transaction analysis, and on-chain attribution using Alchemy's API across multiple networks.
+# 🔍 Blockchain Forensic Analysis Toolkit
 
+### Professional-grade on-chain investigation framework for tracking illegal operations, fraud, and financial crimes
 
-## Setup
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)](https://nodejs.org/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![GitHub Issues](https://img.shields.io/github/issues/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/stargazers)
 
-### 1. Install Dependencies
+**[Documentation](docs/)** • **[Quick Start](docs/QUICK_START.md)** • **[Examples](docs/INVESTIGATION_EXAMPLES.md)** • **[Contributing](CONTRIBUTING.md)** • **[Security](SECURITY.md)**
 
-```bash
-npm install
-```
-
-### 2. Configure Environment Variables
-
-Copy the example environment file and add your Alchemy API key:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and replace `your_api_key_here` with your actual Alchemy API key:
-
-```env
-ALCHEMY_API_KEY=your_actual_api_key_here
-```
-
-All RPC endpoints will automatically use your API key.
-
-## Core Features
-
-### Forensic Analysis System (NEW!)
-
-Professional-grade blockchain forensic toolkit for investigating hacks, exploits, fraud, and tracking stolen funds.
-
-```bash
-npm run forensics
-```
-
-**Capabilities:**
-- Transaction History Collection - Gather complete on-chain history for any address
-- Address Attribution & Tagging - Label addresses with known entities/events
-- Timeline Analysis - Chronological investigation of transaction sequences
-- Fund Flow Tracing - Track stolen funds through multiple hops
-- Pattern Detection - Identify suspicious behaviors and automation
-- Event Registry - Catalog known hacks, exploits, and fraud events
-- Address Clustering - Group related addresses with confidence scoring
-- Report Generation - Export forensic reports in JSON, CSV, and Markdown
-
-**Perfect for:**
-- Security researchers investigating breaches
-- Tracking stolen NFTs or funds
-- Identifying phishing/scam operations
-- Building evidence for law enforcement
-- Exchange fraud detection
-- DeFi exploit analysis
-
-See **[FORENSICS_GUIDE.md](docs/FORENSICS_GUIDE.md)** for complete documentation.
+</div>
 
 ---
 
-## Available Scripts
+## 📋 Table of Contents
 
-### Get Wallet Contracts & Token Info
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Supported Blockchains](#-supported-blockchains)
+- [Core Capabilities](#-core-capabilities)
+- [Use Cases](#-use-cases)
+- [Documentation](#-documentation)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [Security](#-security)
+- [License](#-license)
 
-Query wallet information across multiple blockchain networks. The script automatically detects the chain type and provides relevant data:
+---
 
-- **EVM Chains**: Find all contracts deployed by a wallet address
-- **Solana**: View wallet balance and token accounts
+## 🎯 Overview
 
-All queries are automatically saved to a local SQLite database with timestamps for historical tracking and analysis.
+A comprehensive, open-source forensic toolkit designed for investigating blockchain-based criminal activity, including illegal gambling operations, fraud networks, money laundering, and asset theft. Built with a focus on **evidence quality**, **court admissibility**, and **investigative efficiency**.
 
-```bash
-npm run getContracts
-```
+### Why This Toolkit?
 
-#### Supported Blockchains
+Traditional blockchain explorers provide raw data. This toolkit provides **actionable intelligence**:
 
-**Ethereum:**
-- Ethereum Mainnet
-- Ethereum Sepolia (Testnet)
-- Ethereum Holesky (Testnet)
+- 🔎 **Deep Investigation** - Multi-chain transaction analysis with pattern recognition
+- 🏷️ **Attribution System** - Tag and classify addresses with risk assessment
+- 📊 **Timeline Reconstruction** - Chronological event sequencing for court presentation
+- 🔗 **Fund Flow Tracking** - Trace stolen assets through complex laundering chains
+- 📄 **Report Generation** - Export court-ready evidence in multiple formats
+- 🗄️ **Intelligence Database** - Build and maintain threat actor profiles
 
-**Layer 2 Networks:**
-- Polygon Mainnet & Amoy Testnet
-- Arbitrum One & Sepolia Testnet
-- Optimism Mainnet & Sepolia Testnet
-- Base Mainnet & Sepolia Testnet
-- zkSync Era & Sepolia Testnet
-- Blast Mainnet & Sepolia Testnet
+### Target Audience
 
-**Other Networks:**
-- Astar zkEVM Mainnet
-- Zetachain Mainnet & Testnet
+- **Law Enforcement** - Building cases against crypto criminals
+- **Security Researchers** - Investigating DeFi exploits and hacks
+- **Compliance Teams** - Monitoring sanctioned addresses and suspicious activity
+- **Exchanges** - Fraud detection and stolen asset freezing
+- **Victims** - Tracking stolen funds for recovery efforts
 
-**Solana:**
-- Solana Mainnet
-- Solana Devnet
+---
 
-#### Usage
+## ✨ Key Features
 
-1. Run the command:
-   ```bash
-   npm run getContracts
-   ```
+### 🔍 Forensic Investigation Engine
 
-2. Select your blockchain using arrow keys and press Enter
+- **Transaction History Collection** - Complete on-chain data gathering across 15+ networks
+- **Address Attribution & Tagging** - Label known criminals, victims, and intermediaries
+- **Timeline Analysis** - Reconstruct event sequences with millisecond precision
+- **Fund Flow Tracing** - Multi-hop tracking through mixers and exchanges
+- **Pattern Detection** - Automated identification of suspicious behaviors
+- **Event Registry** - Catalog known hacks, scams, and fraud operations
+- **Address Clustering** - Group related wallets with confidence scoring
 
-3. Enter the wallet address:
-   - **EVM chains**: Valid Ethereum address (0x + 40 hex characters)
-   - **Solana chains**: Valid Solana address (32-44 base58 characters)
+### 📊 Evidence & Reporting
 
-4. View the results:
-   - **EVM chains**: All contracts deployed by that address
-   - **Solana chains**: SOL balance and token accounts owned by the wallet
-   - Query is automatically saved to the database
+- **Multi-Format Export** - JSON (data), CSV (spreadsheet), Markdown (readable)
+- **Court-Ready Reports** - Professional documentation with source citations
+- **Chain-of-Custody** - Immutable blockchain verification for all evidence
+- **Executive Summaries** - High-level overviews for non-technical stakeholders
 
-### View Query History
+### 🗄️ Intelligence Database
 
-Access your historical query data, statistics, and wallet timelines.
+- **SQLite Backend** - Fast, local, and privacy-preserving
+- **Persistent Attribution** - Build institutional knowledge over time
+- **Query History** - Track investigations and revisit past analyses
+- **Cross-Reference** - Link addresses across multiple investigations
 
-```bash
-npm run viewHistory
-```
+---
 
-#### Features
+## 🚀 Installation
 
-- **Recent Query History**: View your most recent queries with timestamps
-- **Statistics**: See total queries, queries by chain type, and top queried chains
-- **Wallet Timeline**: Track changes over time for specific wallet addresses
-- **View Specific Query**: Look up detailed results from any past query by ID
+### Prerequisites
 
-#### Use Cases
+- **Node.js** v16.0.0 or higher
+- **npm** v7.0.0 or higher
+- **Alchemy API Key** ([Get one free](https://www.alchemy.com/))
 
-- **Track Wallet Growth**: Monitor how many contracts a wallet deploys over time
-- **Token Balance History**: See how Solana token holdings change
-- **Cross-Chain Analysis**: Compare activity across different blockchains
-- **Data Export**: All data stored in SQLite format for easy export and graphing
-
-#### Database Schema
-
-The SQLite database stores:
-- **Queries Table**: Basic query info (timestamp, chain, wallet address)
-- **EVM Contracts Table**: Contract addresses found for each query
-- **Solana Wallets Table**: SOL balance and token account counts
-- **Solana Token Accounts Table**: Detailed SPL token information
-
-## Database & Data Storage
-
-All query results are automatically saved to a local SQLite database (`database/alchemy-queries.db`). This allows you to:
-
-- Track historical queries with precise timestamps
-- Build timelines showing wallet activity over time
-- Export data for graphing and analysis
-- Compare results across different chains and time periods
-
-The database file is excluded from git (`.gitignore`) to keep your query history private.
-
-### Accessing the Database
-
-You can access the SQLite database directly for custom analysis:
+### Setup
 
 ```bash
-# Using sqlite3 CLI
-sqlite3 database/alchemy-queries.db
+# Clone the repository
+git clone https://github.com/Fused-Gaming/FUCKIN-DANS-ASS.git
+cd FUCKIN-DANS-ASS
 
-# Example queries:
-# SELECT * FROM queries ORDER BY timestamp DESC LIMIT 10;
-# SELECT chain_name, COUNT(*) FROM queries GROUP BY chain_name;
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.example .env
+# Edit .env and add your ALCHEMY_API_KEY
 ```
 
-Or use the built-in history viewer: `npm run viewHistory`
+### Verify Installation
 
-## Security
-
-- **Never commit your `.env` file** - it contains your API keys
-- **Never commit your database file** - it contains your query history
-- The `.env` and `*.db` files are already in `.gitignore` to prevent accidental commits
-- Share the `.env.example` file with your team so they know which variables to configure
-
-## Adding New Scripts
-
-1. Create a new folder for your script (e.g., `myScript/`)
-2. Add an `index.js` file with your logic
-3. Add an npm script to `package.json`:
-   ```json
-   "scripts": {
-     "my-script": "node myScript/index.js"
-   }
-   ```
-4. Use `require('dotenv').config()` at the top of your script to load environment variables
-5. Access environment variables with `process.env.VARIABLE_NAME`
-
-## Contributing
-
-When adding new blockchain networks:
-
-1. Add the RPC endpoint to `.env`:
-   ```env
-   NETWORK_NAME_RPC=https://network-name.g.alchemy.com/v2/your_api_key_here
-   ```
-
-2. Add the same to `.env.example` with placeholder:
-   ```env
-   NETWORK_NAME_RPC=https://network-name.g.alchemy.com/v2/your_api_key_here
-   ```
-
-3. Update the `SUPPORTED_CHAINS` array in the relevant script
-
-## Documentation
-
-- **[Quick Start Guide](docs/QUICK_START.md)** - 5-minute tutorial to get started
-- **[Forensics Guide](docs/FORENSICS_GUIDE.md)** - Complete forensic toolkit documentation
-- **[Investigation Examples](docs/INVESTIGATION_EXAMPLES.md)** - Real-world investigation workflows
-
-## Quick Start Examples
-
-### Basic Contract Query
-```bash
-npm run getContracts
-# Select chain → Enter address → View deployed contracts
-```
-
-### Forensic Investigation
 ```bash
 npm run forensics
-# Follow interactive prompts for:
-# - Collecting transaction history
-# - Tagging suspicious addresses
-# - Generating investigation reports
 ```
 
-### View Historical Data
+You should see the interactive forensic analysis menu.
+
+---
+
+## ⚡ Quick Start
+
+### Run Your First Investigation
+
 ```bash
-npm run viewHistory
-# Review past queries and statistics
+# Launch forensic toolkit
+npm run forensics
 ```
 
-## Project Structure
+**Example Workflow:**
+
+1. **Select:** "🔍 Collect Transaction History"
+2. **Choose Chain:** Ethereum Mainnet
+3. **Enter Address:** `0x742d35Cc6634C0532925a3b844Bc454e4438f44e`
+4. **Analyze:** Review the timeline and patterns
+5. **Export:** Generate a forensic report
+
+See **[Quick Start Guide](docs/QUICK_START.md)** for a complete 5-minute tutorial.
+
+---
+
+## 🌐 Supported Blockchains
+
+| Network | Mainnet | Testnets |
+|---------|---------|----------|
+| **Ethereum** | ✅ Mainnet | Sepolia, Holesky |
+| **Polygon** | ✅ Mainnet | Amoy |
+| **Arbitrum** | ✅ One | Sepolia |
+| **Optimism** | ✅ Mainnet | Sepolia |
+| **Base** | ✅ Mainnet | Sepolia |
+| **zkSync** | ✅ Era | Sepolia |
+| **Blast** | ✅ Mainnet | Sepolia |
+| **Solana** | ✅ Mainnet | Devnet |
+| **Astar zkEVM** | ✅ Mainnet | - |
+| **Zetachain** | ✅ Mainnet | Testnet |
+
+*Additional chains can be easily added via RPC configuration*
+
+---
+
+## 🛠️ Core Capabilities
+
+### 1. Transaction History Collection
+
+Fetch complete transaction records for any address across supported chains.
+
+```bash
+npm run forensics
+# → Collect Transaction History
+```
+
+**Features:**
+- Incoming + Outgoing transactions
+- Smart contract interactions
+- Token transfers (ERC20, ERC721, ERC1155)
+- Internal transactions
+- Automatic database storage
+
+### 2. Address Attribution System
+
+Tag addresses with intelligence labels and risk assessments.
+
+**Categories:**
+- `hack`, `exploit`, `fraud`, `scam`, `phishing`
+- `mixer`, `exchange`, `sanctioned`
+- `victim`, `intermediary`
+
+**Risk Levels:** `critical`, `high`, `medium`, `low`, `info`
+
+### 3. Timeline Analysis
+
+Reconstruct chronological sequences of events.
+
+```bash
+npm run forensics
+# → Analyze Timeline
+```
+
+**Outputs:**
+- Transaction sequences with timestamps
+- Flagged address interactions
+- Activity patterns and anomalies
+- Date-range statistics
+
+### 4. Fund Flow Tracing
+
+Track assets through multiple wallet hops.
+
+```bash
+npm run forensics
+# → Trace Fund Flow Path
+```
+
+**Capabilities:**
+- Multi-hop tracking
+- Mixer identification
+- Exchange deposit detection
+- Volume analysis
+
+### 5. Pattern Detection
+
+Automated identification of suspicious behaviors.
+
+**Detects:**
+- Rapid successive transfers (< 1 minute)
+- High-value transactions
+- Identical transfer amounts (automation)
+- Failed transaction patterns
+- Contract interaction sequences
+
+### 6. Report Generation
+
+Export comprehensive investigation reports.
+
+```bash
+npm run forensics
+# → Generate Forensic Report
+```
+
+**Export Formats:**
+- **JSON** - Complete data for programmatic access
+- **CSV** - Transaction log for spreadsheet analysis
+- **Markdown** - Human-readable investigation summary
+
+---
+
+## 💼 Use Cases
+
+### 🏛️ Law Enforcement
+
+**Scenario:** Investigating illegal gambling operation
+
+1. Tag known operator addresses
+2. Collect transaction history
+3. Identify victim deposit addresses
+4. Trace fund laundering paths
+5. Generate evidence report for prosecution
+
+### 🔐 Security Research
+
+**Scenario:** DeFi protocol exploit analysis
+
+1. Register the exploit event
+2. Tag exploiter's addresses
+3. Analyze attack timeline
+4. Detect attack patterns
+5. Create attribution cluster
+6. Share intelligence with community
+
+### 🏢 Exchange Compliance
+
+**Scenario:** Stolen fund detection
+
+1. Monitor for deposits from flagged addresses
+2. Check reputation on incoming transfers
+3. Trace fund origins
+4. Freeze and report suspicious deposits
+5. Coordinate with law enforcement
+
+### 🎯 Asset Recovery
+
+**Scenario:** Stolen NFT tracking
+
+1. Tag thief's wallet
+2. Trace NFT movement chain
+3. Identify current holder
+4. Document chain-of-custody
+5. Report to marketplaces for freezing
+
+---
+
+## 📚 Documentation
+
+### Core Documentation
+
+- **[Quick Start Guide](docs/QUICK_START.md)** - 5-minute tutorial for beginners
+- **[Forensics Guide](docs/FORENSICS_GUIDE.md)** - Complete toolkit reference (500+ lines)
+- **[Investigation Examples](docs/INVESTIGATION_EXAMPLES.md)** - 5 real-world workflows
+- **[Project Summary](docs/SUMMARY.md)** - Mission and capabilities overview
+
+### Additional Resources
+
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute code or intelligence
+- **[Security Policy](SECURITY.md)** - Responsible disclosure guidelines
+- **[Code of Conduct](CODE_OF_CONDUCT.md)** - Community standards
+- **[License](LICENSE)** - ISC License details
+
+---
+
+## 📁 Project Structure
 
 ```
-alchemy-api/
+FUCKIN-DANS-ASS/
+├── forensics/                    # Core forensic toolkit
+│   ├── index.js                  # Interactive CLI
+│   ├── transaction-fetcher.js    # On-chain data collection
+│   ├── attribution-manager.js    # Address tagging system
+│   ├── timeline-analyzer.js      # Event reconstruction
+│   └── report-exporter.js        # Evidence generation
 ├── database/
-│   └── db.js                 # Database schema and functions
-├── forensics/                # NEW: Forensic analysis toolkit
-│   ├── index.js              # Main forensic CLI
-│   ├── transaction-fetcher.js
-│   ├── attribution-manager.js
-│   ├── timeline-analyzer.js
-│   └── report-exporter.js
-├── getWalletContracts/       # Wallet contract queries
-│   ├── index.js
-│   └── solana-handler.js
-├── viewHistory/              # Query history viewer
-│   └── index.js
-├── docs/                     # Documentation
+│   └── db.js                     # SQLite schema & queries
+├── docs/                         # Comprehensive documentation
 │   ├── FORENSICS_GUIDE.md
-│   └── INVESTIGATION_EXAMPLES.md
-└── .env                      # Your API keys (git-ignored)
+│   ├── INVESTIGATION_EXAMPLES.md
+│   ├── QUICK_START.md
+│   └── SUMMARY.md
+├── getWalletContracts/           # Basic wallet queries
+├── viewHistory/                  # Investigation history viewer
+├── voice/                        # Optional narrator system
+├── .env.example                  # Environment template
+├── package.json                  # Dependencies & scripts
+├── README.md                     # This file
+├── CONTRIBUTING.md               # Contribution guidelines
+├── SECURITY.md                   # Security policy
+├── CODE_OF_CONDUCT.md            # Community standards
+└── LICENSE                       # ISC License
 ```
 
-## Use Cases
+---
 
-### Security Research
-- Investigate DeFi exploits and hacks
-- Track stolen funds across chains
-- Identify attack patterns and methodologies
-- Build evidence timelines for disclosure
+## 🤝 Contributing
 
-### Fraud Detection
-- Detect phishing and scam operations
-- Track fraudulent fund flows
-- Identify victim addresses
-- Generate reports for law enforcement
+We welcome contributions from the security research and blockchain investigation community!
 
-### Asset Recovery
-- Trace stolen NFTs through multiple wallets
-- Monitor for exchange deposits to freeze funds
-- Document complete chain of custody
-- Coordinate with exchanges and authorities
+### How to Contribute
 
-### Compliance & Intelligence
-- Monitor sanctioned addresses (e.g., Tornado Cash)
-- Build threat intelligence databases
-- Track mixer usage patterns
-- Maintain attribution databases
+1. **Fork the repository**
+2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
+3. **Commit your changes** (`git commit -m 'Add amazing feature'`)
+4. **Push to the branch** (`git push origin feature/amazing-feature`)
+5. **Open a Pull Request**
 
-## Legal & Ethical Use
+### Contribution Areas
 
-This toolkit analyzes **public blockchain data only**. All transaction information is:
+- 🔗 **Chain Support** - Add new blockchain integrations
+- 🧠 **Pattern Detection** - Improve anomaly detection algorithms
+- 📊 **Reporting** - Enhance export formats and templates
+- 🗄️ **Intelligence** - Contribute known bad actor addresses
+- 📚 **Documentation** - Improve guides and examples
+- 🐛 **Bug Fixes** - Report and fix issues
+
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines.
+
+---
+
+## 🔒 Security
+
+### Responsible Disclosure
+
+If you discover a security vulnerability, please follow our **[Security Policy](SECURITY.md)**.
+
+**DO NOT** open public issues for security vulnerabilities.
+
+### Data Privacy
+
+- All data stored locally (SQLite database)
+- No telemetry or external data transmission
+- API keys stored in `.env` (git-ignored)
+- Investigation data is private by default
+
+### Best Practices
+
+- Never commit `.env` files with API keys
+- Regularly update dependencies for security patches
+- Use read-only API keys when possible
+- Encrypt sensitive investigation databases
+
+---
+
+## ⚖️ Legal & Ethical Use
+
+### Intended Use
+
+This toolkit is designed for **legitimate investigative purposes**:
+
+✅ Law enforcement investigations
+✅ Security research and threat intelligence
+✅ Compliance and regulatory monitoring
+✅ Authorized incident response
+✅ Asset recovery for verified victims
+
+### Prohibited Use
+
+❌ Harassment, doxxing, or stalking
+❌ Creating fabricated evidence
+❌ Unauthorized surveillance
+❌ Privacy violations
+❌ Illegal or unethical activities
+
+### Data Source
+
+All analyzed data is **public blockchain information**:
 - Publicly available on-chain
-- Immutable and verifiable
+- Immutable and independently verifiable
 - Not obtained through unauthorized access
+- Court-admissible as evidence
 
-**Intended for:**
-- Legitimate security research
-- Authorized investigations
-- Incident response
-- Compliance and regulatory reporting
+**Use responsibly. Investigate legally. Report ethically.**
 
-**Not for:**
-- Harassment or doxxing
-- Creating false evidence
-- Unauthorized surveillance
-- Privacy violations
+---
 
-## Performance Tips
+## 📄 License
 
-- Use free Alchemy tier for testing
-- Upgrade for large-scale investigations (rate limits)
-- Collect transaction history in batches
-- Export reports regularly to save progress
-- Build attribution database incrementally
+This project is licensed under the **ISC License** - see the [LICENSE](LICENSE) file for details.
 
-## Troubleshooting
+```
+Copyright (c) 2024 Fused-Gaming
 
-**"No transactions found"**
-- Run "Collect Transaction History" first
-- Verify address format is correct
-- Check that RPC URL is configured
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+```
 
-**Rate Limiting**
-- Reduce `maxCount` parameter
-- Add delays between requests
-- Upgrade Alchemy plan for higher limits
+---
 
-**Database Issues**
-- Database auto-creates on first run
-- Located at `database/alchemy-queries.db`
-- Can be deleted to reset (will lose data)
+## 🙏 Acknowledgments
 
-## License
+- **Alchemy** - Multi-chain RPC infrastructure
+- **Better-SQLite3** - Fast, synchronous SQLite database
+- **Node.js Community** - Excellent tooling ecosystem
+- **Blockchain Security Researchers** - Pioneering on-chain forensics
 
-ISC
+---
+
+## 📞 Support & Community
+
+- **Issues:** [GitHub Issues](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/discussions)
+- **Documentation:** [docs/](docs/)
+
+---
+
+<div align="center">
+
+### ⭐ Star this repository if you find it useful!
+
+**Built to expose financial crimes through irrefutable blockchain evidence.**
+
+[Get Started](docs/QUICK_START.md) • [Documentation](docs/) • [Examples](docs/INVESTIGATION_EXAMPLES.md)
+
+</div>
