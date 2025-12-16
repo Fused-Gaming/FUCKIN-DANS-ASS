@@ -1,7 +1,7 @@
 {
   "name": "blockchain-forensic-toolkit",
   "version": "2.1.0",
-  "description": "Professional blockchain forensic analysis toolkit with Etherscan integration, investigation management, and MCP support",
+  "description": "Professional blockchain forensic analysis toolkit with AI-powered MCP integration, Etherscan API V2 support, and comprehensive investigation management",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,17 @@
     "viewHistory": "node viewHistory/index.js",
     "forensics": "node forensics/index.js",
     "db": "node database/sql-browser.js",
-    "db:browser": "node database/sql-browser.js"
+    "db:browser": "node database/sql-browser.js",
+    "mcp:test": "node test-mcp-integration.js",
+    "mcp:build": "cd mcp-etherscan-server && npm run build",
+    "mcp:start": "node mcp-etherscan-server/build/index.js",
+    "mcp:install": "cd mcp-etherscan-server && npm install",
+    "mcp:setup": "npm run mcp:install && npm run mcp:build && npm run mcp:test",
+    "investigation:test": "node test-investigation.js",
+    "setup": "npm install && npm run mcp:setup && npm run mcp:test",
+    "validate": "npm run mcp:test && npm run investigation:test",
+    "quickstart": "npm run setup && npm run forensics",
+    "help": "echo Blockchain Forensic Analysis Toolkit Commands: && echo && echo Core Commands: && echo   npm run forensics - Launch forensic analysis && echo   npm run db - Database browser && echo && echo MCP Commands: && echo   npm run mcp:test - Test MCP server && echo   npm run mcp:setup - Setup MCP integration && echo   npm run mcp:build - Build MCP server && echo && echo Setup: && echo   npm run setup - Full installation && echo   npm run validate - Run all tests && echo   npm run quickstart - Setup + start && echo && echo Examples: && echo   npm run quickstart  # New users && echo   npm run validate     # Verify installation"
   },
   "keywords": [
     "blockchain",
@@ -21,7 +31,11 @@
     "security",
     "threat-intelligence",
     "mcp",
-    "model-context-protocol"
+    "model-context-protocol",
+    "ai-assisted",
+    "api-v2",
+    "court-ready",
+    "evidence-management"
   ],
   "author": "Fused-Gaming",
   "license": "ISC",
