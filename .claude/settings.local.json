@@ -36,7 +36,14 @@
       "Bash(npm view:*)",
       "Bash(gh release view:*)",
       "Bash(find:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "Bash('maple')",
+      "Bash('palm')",
+      "Bash('willow')",
+      "Bash('linden')",
+      "Bash('almond')",
+      "Bash('aspen'\"\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git rm:*)"
     ]
   }
 }
