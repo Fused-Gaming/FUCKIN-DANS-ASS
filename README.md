@@ -2,15 +2,16 @@
 
 # 🔍 Blockchain Forensic Analysis Toolkit
 
-### Professional-grade on-chain investigation framework for tracking illegal operations, fraud, and financial crimes
+### Professional-grade on-chain investigation framework with AI-powered MCP integration and Etherscan API V2 support
 
+[![Version: 2.1.0](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.1.0)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D16.0.0-brightgreen)](https://nodejs.org/)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![GitHub Issues](https://img.shields.io/github/issues/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/stargazers)
 
-**[Documentation](docs/)** • **[Quick Start](docs/QUICK_START.md)** • **[Examples](docs/INVESTIGATION_EXAMPLES.md)** • **[Contributing](CONTRIBUTING.md)** • **[Security](SECURITY.md)**
+**[Latest Release: v2.1.0](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.1.0)** • **[MCP Integration Guide](MCP_INTEGRATION.md)** • **[Quick Start](DATABASE_SETUP.md)** • **[Examples](docs/INVESTIGATION_EXAMPLES.md)** • **[Contributing](CONTRIBUTING.md)** • **[Security](SECURITY.md)**
 
 </div>
 
@@ -75,8 +76,18 @@ Traditional blockchain explorers provide raw data. This toolkit provides **actio
 
 ### 📊 Evidence & Reporting
 
-- **Multi-Format Export** - JSON, CSV, Markdown, HTML reports
+- **Multi-Format Export** - JSON, CSV, Markdown, HTML, TXT reports
 - **Investigation Reports** - Professional ZIP archives with full documentation
+- **Court-Ready Evidence** - Chronological timelines with investigator attribution
+- **Evidence Management** - Attach files, URLs, and cryptographic hashes to cases
+
+### 🤖 AI-Powered Analysis (MCP)
+
+- **Model Context Protocol** - Native support for AI assistant integration
+- **Etherscan MCP Server** - Custom API V2 server for blockchain data queries
+- **AI Investigation Assistant** - Enable Claude Desktop, VSCode, and other MCP clients for on-chain analysis
+- **Real-Time Data Access** - Query balances, transactions, gas prices, and ENS names via AI
+- **Automated Workflow** - Combine AI insights with forensic database for comprehensive analysis
 - **Court-Ready Reports** - Professional documentation with source citations
 - **Chain-of-Custody** - Immutable blockchain verification for all evidence
 - **Executive Summaries** - High-level overviews for non-technical stakeholders
@@ -96,27 +107,35 @@ Traditional blockchain explorers provide raw data. This toolkit provides **actio
 
 ### Prerequisites
 
-- **Node.js** v16.0.0 or higher (v18+ recommended for MCP)
+- **Node.js** v18.0.0 or higher (required for MCP integration)
 - **npm** v7.0.0 or higher
-- **Alchemy API Key** ([Get one free](https://www.alchemy.com/))
-- **Etherscan API Key** ([Get one free](https://etherscan.io/apis)) - Required for label imports
+- **Etherscan API Key** ([Get one free](https://etherscan.io/apis)) - Required for all features
+- **MCP Client** (Optional) - Claude Desktop, VSCode with Continue, or other MCP-compatible AI assistant
 
-### Setup
+### Quick Start
 
 ```bash
 # Clone the repository
-git clone https://github.com/Fused-Gaming/FUCKIN-DANS-ASS.git
-cd FUCKIN-DANS-ASS
+git clone https://github.com/Fused-Gaming/blockchain-forensic-toolkit.git
+cd blockchain-forensic-toolkit
 
 # Install dependencies
 npm install
 
 # Configure environment
 cp .env.example .env
-# Edit .env and add your API keys:
-# - ETHERSCAN_API_KEY (required for auto-import)
-# - INVESTIGATOR_NAME, EMAIL, etc. (required for reports)
+# Edit .env with your required credentials:
+# - ETHERSCAN_API_KEY (required for all functionality)
+# - INVESTIGATOR_NAME, EMAIL, ORGANIZATION (required for reports)
 ```
+
+### 🤖 MCP Integration Setup (Optional)
+
+1. **Install MCP Client** (Claude Desktop recommended)
+2. **Configure MCP Server** - `.mcp.json` is pre-configured
+3. **Start Investigation** - Use AI assistants for on-chain queries
+
+See [MCP_INTEGRATION.md](MCP_INTEGRATION.md) for complete setup guide.
 
 ### Verify Installation
 
@@ -125,6 +144,15 @@ npm run forensics
 ```
 
 You should see the interactive forensic analysis menu.
+
+### 🤖 Test MCP Integration
+
+```bash
+# Test Etherscan MCP server connectivity
+node test-mcp-integration.js
+
+# Expected output: ✅ All tests passing with real data
+```
 
 ---
 
@@ -135,6 +163,15 @@ You should see the interactive forensic analysis menu.
 ```bash
 # Launch forensic toolkit
 npm run forensics
+
+# Available options:
+# 1. 🔍 Collect Transaction History
+# 2. 📊 Analyze Timeline  
+# 3. 🏷️  Tag/Attribute Address
+# 4. 🔗 Trace Fund Flow Path
+# 5. 📁 Register Known Event
+# 6. 📄 Generate Forensic Report
+# 7. 📋 Investigation Management
 ```
 
 **Example Workflow:**
