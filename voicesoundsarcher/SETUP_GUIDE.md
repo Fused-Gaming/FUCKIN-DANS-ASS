@@ -67,7 +67,7 @@ ELEVENLABS_API_KEY=sk_your_actual_api_key_here
 ALCHEMY_API_KEY=your_alchemy_key
 
 # ElevenLabs Voice (NEW!)
-ELEVENLABS_API_KEY=sk_1234567890abcdef
+ELEVENLABS_API_KEY=sk_your_actual_api_key_here
 
 # Other RPC URLs...
 ETH_MAINNET_RPC=https://eth-mainnet.g.alchemy.com/v2/your_key

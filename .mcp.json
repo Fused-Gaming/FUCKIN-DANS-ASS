@@ -7,7 +7,7 @@
         "mcp-etherscan-server/build/index.js"
       ],
       "env": {
-        "ETHERSCAN_API_KEY": "27WCM8FJI5Y2Q3BM61AGRRC6497QCEWNSX"
+        "ETHERSCAN_API_KEY": "${ETHERSCAN_API_KEY}"
       },
       "cwd": "K:\\git\\alchemy-api"
     }
