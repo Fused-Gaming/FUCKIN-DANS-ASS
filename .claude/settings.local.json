@@ -19,7 +19,12 @@
       "Bash(python -m pip install:*)",
       "Bash(git checkout:*)",
       "Bash(gh pr create:*)",
-      "Bash(gh pr view:*)"
+      "Bash(gh pr view:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm pack:*)",
+      "Bash(gh pr merge:*)",
+      "Bash(git pull:*)",
+      "Bash(npm run validate:*)"
     ]
   }
 }

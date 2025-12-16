@@ -80,34 +80,34 @@ jobs:
 
             const releaseBody = `## Package Information
 
-**Name:** \`${packageName}\`
-**Version:** \`${version}\`
+            **Name:** ${packageName}
+            **Version:** ${version}
 
-## Installation
+            ## Installation
 
-\`\`\`bash
-npm install -g ${packageName}@${version}
-\`\`\`
+            \`\`\`bash
+            npm install -g ${packageName}@${version}
+            \`\`\`
 
-## Changes
+            ## Changes
 
-${changelog}
+            ${changelog}
 
-## Links
+            ## Links
 
-- [npm Package](https://www.npmjs.com/package/${packageName}/v/${version})
-- [Documentation](https://github.com/${context.repo.owner}/${context.repo.repo}#readme)
-- [Changelog](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/master/CHANGELOG.md)
+            - [npm Package](https://www.npmjs.com/package/${packageName}/v/${version})
+            - [Documentation](https://github.com/${context.repo.owner}/${context.repo.repo}#readme)
+            - [Changelog](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/master/CHANGELOG.md)
 
-## Pull Request
+            ## Pull Request
 
-**PR #${prNumber}:** ${prTitle}
+            **PR #${prNumber}:** ${prTitle}
 
-${prBody}
+            ${prBody}
 
----
+            ---
 
-*This release was automatically generated from merged PR #${prNumber}*`;
+            *This release was automatically generated from merged PR #${prNumber}*`;
 
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
