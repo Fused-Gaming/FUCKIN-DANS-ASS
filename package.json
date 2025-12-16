@@ -21,13 +21,16 @@
     "mcp:setup": "npm run mcp:install && npm run mcp:build && npm run mcp:test",
     "investigation:test": "node test-investigation.js",
     "setup": "npm install && npm run mcp:setup && npm run mcp:test",
-    "validate": "npm run mcp:test && npm run investigation:test",
+    "validate": "npm run investigation:test",
+    "validate:full": "npm run mcp:test && npm run investigation:test",
     "quickstart": "npm run setup && npm run forensics",
     "help": "node scripts/help.js",
     "npm:login": "node scripts/npm-login.js",
     "npm:publish": "node scripts/npm-publish.js",
     "npm:publish:dryrun": "npm pack --dryrun",
-    "npm:verify": "npm install -g blockchain-forensic-toolkit && forensics --version"
+    "npm:verify": "npm install -g blockchain-forensic-toolkit && forensics --version",
+    "npm:status": "node scripts/npm-status.js",
+    "npm:try-publish": "node scripts/try-publish.js"
   },
   "keywords": [
     "blockchain",
@@ -80,12 +83,12 @@
   "preferGlobal": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit.git"
+    "url": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS.git"
   },
   "bugs": {
-    "url": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit/issues"
+    "url": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/issues"
   },
-  "homepage": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit#readme",
+  "homepage": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS#readme",
   "directories": {
     "doc": "docs",
     "lib": "scripts",
