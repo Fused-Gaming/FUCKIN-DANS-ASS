@@ -1,15 +1,23 @@
 # Version Management
 
-Current Version: **2.1.0**
+Current Version: **2.5.2**
 
 ## Version History
 
-### v2.1.0 (Current)
+### v2.5.2 (Current)
+- VERSION.md management system implementation
+- Automated version bump scripts (major/minor/patch)
 - Comprehensive CI/CD pipeline for automated releases
 - Automated documentation and release notes system
 - YAML syntax fixes in release workflow
 - Validation test improvements
 - RPC URL handling fixes
+- Enhanced workflow error handling
+
+### v2.1.0
+- Initial release with MCP integration
+- Etherscan API V2 support
+- Investigation management system
 
 ## Versioning Scheme
 
