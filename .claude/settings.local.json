@@ -33,7 +33,9 @@
       "Bash(ls:*)",
       "Bash(git fetch:*)",
       "Bash(gh run view:*)",
-      "Bash(npm view:*)"
+      "Bash(npm view:*)",
+      "Bash(gh release view:*)",
+      "Bash(find:*)"
     ]
   }
 }
