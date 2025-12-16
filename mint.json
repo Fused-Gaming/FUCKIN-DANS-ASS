@@ -1,6 +1,7 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Blockchain Forensic Toolkit",
+  "theme": "mint",
   "logo": {
     "dark": "/docs/assets/logo-dark.svg",
     "light": "/docs/assets/logo-light.svg"
@@ -112,29 +113,11 @@
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS",
-    "twitter": "https://twitter.com/fusedgaming"
+    "github": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS"
   },
-  "backgroundImage": "/docs/assets/background.png",
-  "analytics": {
-    "ga4": {
-      "measurementId": "G-XXXXXXXXXX"
-    }
-  },
-  "api": {
-    "baseUrl": "https://api.etherscan.io/api",
-    "auth": {
-      "method": "key",
-      "name": "apikey"
-    }
-  },
-  "openapi": "/docs/openapi.json",
   "feedback": {
     "thumbsRating": true,
     "suggestEdit": true,
     "raiseIssue": true
-  },
-  "search": {
-    "prompt": "Search documentation..."
   }
 }
