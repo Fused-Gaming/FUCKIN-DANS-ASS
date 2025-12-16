@@ -1,0 +1,107 @@
+# Source control
+.git
+.gitignore
+.gitattributes
+
+# Dependency directories
+node_modules/
+mcp-etherscan-server/node_modules/
+
+# Development files
+.env
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Test files
+test/
+tests/
+**/*.test.js
+**/*.spec.js
+coverage/
+.nyc_output/
+
+# Build artifacts (we include built MCP server, exclude source builds)
+build/
+dist/
+*.tgz
+
+# Documentation not needed in package (except README)
+CHANGELOG.md
+DISTRIBUTION.md
+TODO.md
+SECURITY.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+LICENSE.md  # Keep LICENSE in package
+database/QUICK_REFERENCE.md
+forensics/ETHERSCAN_API_V2_GUIDE.md
+forensics/PRIVATE_TAGS_README.md
+voice/VOICE_GUIDE.md
+voicesoundsarcher/
+voice/
+
+# Development scripts and examples
+test-investigation.js
+test-mcp-integration.js
+examples/
+
+# Temporary files
+.tmp/
+temp/
+*.tmp
+
+# MCP development files (but keep built output)
+mcp-etherscan-server/.gitignore
+mcp-etherscan-server/tsconfig.json
+mcp-etherscan-server/package-lock.json
+mcp-etherscan-server/README.md
+mcp-etherscan-server/LICENSE
+mcp-etherscan-server/src/
+mcp-etherscan-server/.git/
+mcp-etherscan-server/node_modules/
+
+# Voice features (optional, exclude from base package)
+voice/
+voicesoundsarcher/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Windows specific
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Package manager lock files (keep package-lock.json for reproducible builds)
+pnpm-lock.yaml
+yarn.lock
+
+# Claude and local AI files
+.claude/

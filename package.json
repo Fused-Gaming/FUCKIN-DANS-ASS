@@ -23,7 +23,11 @@
     "setup": "npm install && npm run mcp:setup && npm run mcp:test",
     "validate": "npm run mcp:test && npm run investigation:test",
     "quickstart": "npm run setup && npm run forensics",
-    "help": "node scripts/help.js"
+    "help": "node scripts/help.js",
+    "npm:login": "node scripts/npm-login.js",
+    "npm:publish": "node scripts/npm-publish.js",
+    "npm:publish:dryrun": "npm pack --dryrun",
+    "npm:verify": "npm install -g blockchain-forensic-toolkit && forensics --version"
   },
   "keywords": [
     "blockchain",
@@ -58,14 +62,16 @@
     "intelligence/**",
     "getWalletContracts/**",
     "viewHistory/**",
-    "mcp-etherscan-server/**",
-    "voice/**",
-    "voicesoundsarcher/**",
+    "mcp-etherscan-server/build/**",
+    "mcp-etherscan-server/package.json",
+    "mcp-etherscan-server/README.md",
+    "mcp-etherscan-server/LICENSE",
     "docs/**",
-    "templates/**",
     "*.md",
     "*.json",
-    "LICENSE"
+    "LICENSE",
+    ".env.example",
+    ".mcp.json"
   ],
   "engines": {
     "node": ">=18.0.0",
