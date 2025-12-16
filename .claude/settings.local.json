@@ -30,7 +30,10 @@
       "Bash(git branch:*)",
       "Bash(gh run list:*)",
       "Bash(gh release list:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git fetch:*)",
+      "Bash(gh run view:*)",
+      "Bash(npm view:*)"
     ]
   }
 }

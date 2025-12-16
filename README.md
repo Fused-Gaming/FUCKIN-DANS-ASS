@@ -4,14 +4,14 @@
 
 ### Professional-grade on-chain investigation framework with AI-powered MCP integration and Etherscan API V2 support
 
-[![Version: 2.1.0](https://img.shields.io/badge/version-2.1.0-blue.svg)](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.1.0)
+[![Version: 2.5.2](https://img.shields.io/badge/version-2.5.2-blue.svg)](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.5.2)
 [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![GitHub Issues](https://img.shields.io/github/issues/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/issues)
 [![GitHub Stars](https://img.shields.io/github/stars/Fused-Gaming/FUCKIN-DANS-ASS)](https://github.com/Fused-Gaming/FUCKIN-DANS-ASS/stargazers)
 
-**[Latest Release: v2.1.0](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.1.0)** • **[MCP Integration Guide](MCP_INTEGRATION.md)** • **[Quick Start](DATABASE_SETUP.md)** • **[Examples](docs/INVESTIGATION_EXAMPLES.md)** • **[Contributing](CONTRIBUTING.md)** • **[Security](SECURITY.md)**
+**[Latest Release: v2.5.2](https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.5.2)** • **[MCP Integration Guide](MCP_INTEGRATION.md)** • **[Quick Start](DATABASE_SETUP.md)** • **[Examples](docs/INVESTIGATION_EXAMPLES.md)** • **[Contributing](CONTRIBUTING.md)** • **[Security](SECURITY.md)**
 
 </div>
 
