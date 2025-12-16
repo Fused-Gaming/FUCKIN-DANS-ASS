@@ -1,0 +1,12 @@
+# Documentation Directory
+
+This directory contains the organized Mintlify documentation for the Blockchain Forensic Toolkit.
+
+## Structure
+
+- `getting-started/` - Installation and setup guides
+- `guides/` - User guides and tutorials
+- `integrations/` - Integration documentation
+- `api-reference/` - API and command reference
+- `development/` - Development and contribution guides
+- `assets/` - Images, logos, and other assets

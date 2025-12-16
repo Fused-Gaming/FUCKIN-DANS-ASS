@@ -1,6 +1,12 @@
 {
   "version": "2.5.2",
   "lastUpdated": "2025-12-16",
+  "mintlify": {
+    "enabled": true,
+    "configFile": "./mint.json",
+    "docsDirectory": "./docs",
+    "introduction": "./docs/introduction.mdx"
+  },
   "repository": {
     "name": "blockchain-forensic-toolkit",
     "url": "https://github.com/Fused-Gaming/FUCKIN-DANS-ASS"
@@ -10,6 +16,15 @@
       "title": "Core Documentation",
       "description": "Essential documentation for getting started and understanding the toolkit",
       "documents": [
+        {
+          "name": "introduction.mdx",
+          "path": "./docs/introduction.mdx",
+          "title": "Introduction",
+          "description": "Welcome to the Blockchain Forensic Analysis Toolkit",
+          "category": "overview",
+          "audience": "all",
+          "priority": 1
+        },
         {
           "name": "README.md",
           "path": "./README.md",
@@ -45,7 +60,7 @@
       "documents": [
         {
           "name": "INSTALLATION.md",
-          "path": "./INSTALLATION.md",
+          "path": "./docs/getting-started/INSTALLATION.md",
           "title": "Installation Guide",
           "description": "Step-by-step installation instructions",
           "category": "setup",
@@ -54,7 +69,7 @@
         },
         {
           "name": "DATABASE_SETUP.md",
-          "path": "./DATABASE_SETUP.md",
+          "path": "./docs/getting-started/DATABASE_SETUP.md",
           "title": "Database Setup",
           "description": "Database configuration and setup instructions",
           "category": "setup",
@@ -63,7 +78,7 @@
         },
         {
           "name": "QUICK_START.md",
-          "path": "./docs/QUICK_START.md",
+          "path": "./docs/getting-started/QUICK_START.md",
           "title": "Quick Start Guide",
           "description": "Fast-track guide to get up and running",
           "category": "setup",
@@ -87,7 +102,7 @@
       "documents": [
         {
           "name": "COMMANDS.md",
-          "path": "./COMMANDS.md",
+          "path": "./docs/api-reference/COMMANDS.md",
           "title": "Command Reference",
           "description": "Complete reference for all CLI commands",
           "category": "reference",
@@ -96,7 +111,7 @@
         },
         {
           "name": "FORENSICS_GUIDE.md",
-          "path": "./docs/FORENSICS_GUIDE.md",
+          "path": "./docs/guides/FORENSICS_GUIDE.md",
           "title": "Forensics Guide",
           "description": "Comprehensive guide to forensic analysis workflows",
           "category": "guide",
@@ -105,7 +120,7 @@
         },
         {
           "name": "INVESTIGATION_EXAMPLES.md",
-          "path": "./docs/INVESTIGATION_EXAMPLES.md",
+          "path": "./docs/guides/INVESTIGATION_EXAMPLES.md",
           "title": "Investigation Examples",
           "description": "Real-world investigation scenarios and examples",
           "category": "examples",
@@ -114,7 +129,7 @@
         },
         {
           "name": "TEST_INVESTIGATION_REPORT.md",
-          "path": "./TEST_INVESTIGATION_REPORT.md",
+          "path": "./docs/guides/TEST_INVESTIGATION_REPORT.md",
           "title": "Test Investigation Report",
           "description": "Sample investigation report for reference",
           "category": "examples",
@@ -123,12 +138,30 @@
         },
         {
           "name": "VOICE_GUIDE.md",
-          "path": "./VOICE_GUIDE.md",
+          "path": "./docs/guides/VOICE_GUIDE.md",
           "title": "Voice Guide",
           "description": "Voice interface usage and commands",
           "category": "guide",
           "audience": "users",
           "priority": 3
+        },
+        {
+          "name": "PRIVATE_TAGS_README.md",
+          "path": "./docs/guides/PRIVATE_TAGS_README.md",
+          "title": "Private Tags Guide",
+          "description": "Using private tags for address attribution",
+          "category": "features",
+          "audience": "users",
+          "priority": 2
+        },
+        {
+          "name": "INTELLIGENCE.md",
+          "path": "./docs/guides/INTELLIGENCE.md",
+          "title": "Intelligence System",
+          "description": "Threat intelligence database system documentation",
+          "category": "features",
+          "audience": "users",
+          "priority": 1
         }
       ]
     },
@@ -138,7 +171,7 @@
       "documents": [
         {
           "name": "MCP_INTEGRATION.md",
-          "path": "./MCP_INTEGRATION.md",
+          "path": "./docs/integrations/MCP_INTEGRATION.md",
           "title": "MCP Integration Guide",
           "description": "Model Context Protocol integration and AI-powered features",
           "category": "integration",
@@ -147,7 +180,7 @@
         },
         {
           "name": "ETHERSCAN_AUTO_IMPORT.md",
-          "path": "./ETHERSCAN_AUTO_IMPORT.md",
+          "path": "./docs/integrations/ETHERSCAN_AUTO_IMPORT.md",
           "title": "Etherscan Auto Import",
           "description": "Automatic data import from Etherscan API",
           "category": "integration",
@@ -156,36 +189,12 @@
         },
         {
           "name": "ETHERSCAN_API_V2_GUIDE.md",
-          "path": "./forensics/ETHERSCAN_API_V2_GUIDE.md",
+          "path": "./docs/integrations/ETHERSCAN_API_V2_GUIDE.md",
           "title": "Etherscan API V2 Guide",
           "description": "Guide for using Etherscan API V2 features",
           "category": "integration",
           "audience": "developers",
           "priority": 2
-        },
-        {
-          "name": "PRIVATE_TAGS_README.md",
-          "path": "./forensics/PRIVATE_TAGS_README.md",
-          "title": "Private Tags Guide",
-          "description": "Using private tags for address attribution",
-          "category": "features",
-          "audience": "users",
-          "priority": 2
-        }
-      ]
-    },
-    "intelligence": {
-      "title": "Threat Intelligence",
-      "description": "Threat intelligence database and management",
-      "documents": [
-        {
-          "name": "intelligence/README.md",
-          "path": "./intelligence/README.md",
-          "title": "Intelligence System",
-          "description": "Threat intelligence database system documentation",
-          "category": "features",
-          "audience": "users",
-          "priority": 1
         }
       ]
     },
@@ -195,7 +204,7 @@
       "documents": [
         {
           "name": "CONTRIBUTING.md",
-          "path": "./CONTRIBUTING.md",
+          "path": "./docs/development/CONTRIBUTING.md",
           "title": "Contributing Guidelines",
           "description": "How to contribute to the project",
           "category": "development",
@@ -204,7 +213,7 @@
         },
         {
           "name": "CODE_OF_CONDUCT.md",
-          "path": "./CODE_OF_CONDUCT.md",
+          "path": "./docs/development/CODE_OF_CONDUCT.md",
           "title": "Code of Conduct",
           "description": "Community guidelines and expectations",
           "category": "community",
@@ -213,22 +222,16 @@
         },
         {
           "name": "SECURITY.md",
-          "path": "./SECURITY.md",
+          "path": "./docs/development/SECURITY.md",
           "title": "Security Policy",
           "description": "Security policies and vulnerability reporting",
           "category": "security",
           "audience": "all",
           "priority": 1
-        }
-      ]
-    },
-    "distribution": {
-      "title": "Distribution & Publishing",
-      "description": "Documentation for package distribution and publishing",
-      "documents": [
+        },
         {
           "name": "DISTRIBUTION.md",
-          "path": "./DISTRIBUTION.md",
+          "path": "./docs/development/DISTRIBUTION.md",
           "title": "Distribution Guide",
           "description": "Package distribution and deployment guide",
           "category": "deployment",
@@ -237,7 +240,7 @@
         },
         {
           "name": "PUBLISHING.md",
-          "path": "./docs/PUBLISHING.md",
+          "path": "./docs/development/PUBLISHING.md",
           "title": "Publishing Guide",
           "description": "NPM publishing workflow and procedures",
           "category": "deployment",
@@ -246,36 +249,21 @@
         },
         {
           "name": "PNPM_SUPPORT.md",
-          "path": "./docs/PNPM_SUPPORT.md",
+          "path": "./docs/development/PNPM_SUPPORT.md",
           "title": "PNPM Support",
           "description": "PNPM package manager support documentation",
           "category": "deployment",
           "audience": "developers",
           "priority": 2
-        }
-      ]
-    },
-    "planning": {
-      "title": "Planning & Roadmap",
-      "description": "Project planning and future development",
-      "documents": [
+        },
         {
           "name": "EXPANSION_PLAN.md",
-          "path": "./EXPANSION_PLAN.md",
+          "path": "./docs/development/EXPANSION_PLAN.md",
           "title": "Expansion Plan",
           "description": "Future features and expansion roadmap",
           "category": "planning",
           "audience": "developers",
           "priority": 2
-        },
-        {
-          "name": "SUMMARY.md",
-          "path": "./docs/SUMMARY.md",
-          "title": "Project Summary",
-          "description": "High-level project summary and overview",
-          "category": "overview",
-          "audience": "all",
-          "priority": 3
         }
       ]
     }
@@ -303,27 +291,27 @@
   },
   "quickLinks": {
     "gettingStarted": [
-      "./README.md",
-      "./INSTALLATION.md",
-      "./docs/QUICK_START.md",
-      "./DATABASE_SETUP.md"
+      "./docs/introduction.mdx",
+      "./docs/getting-started/INSTALLATION.md",
+      "./docs/getting-started/QUICK_START.md",
+      "./docs/getting-started/DATABASE_SETUP.md"
     ],
     "userGuides": [
-      "./COMMANDS.md",
-      "./docs/FORENSICS_GUIDE.md",
-      "./docs/INVESTIGATION_EXAMPLES.md",
-      "./MCP_INTEGRATION.md"
+      "./docs/api-reference/COMMANDS.md",
+      "./docs/guides/FORENSICS_GUIDE.md",
+      "./docs/guides/INVESTIGATION_EXAMPLES.md",
+      "./docs/integrations/MCP_INTEGRATION.md"
     ],
     "developerDocs": [
-      "./CONTRIBUTING.md",
+      "./docs/development/CONTRIBUTING.md",
       "./VERSION.md",
-      "./DISTRIBUTION.md",
-      "./docs/PUBLISHING.md"
+      "./docs/development/DISTRIBUTION.md",
+      "./docs/development/PUBLISHING.md"
     ],
     "apiIntegration": [
-      "./MCP_INTEGRATION.md",
-      "./ETHERSCAN_AUTO_IMPORT.md",
-      "./forensics/ETHERSCAN_API_V2_GUIDE.md"
+      "./docs/integrations/MCP_INTEGRATION.md",
+      "./docs/integrations/ETHERSCAN_AUTO_IMPORT.md",
+      "./docs/integrations/ETHERSCAN_API_V2_GUIDE.md"
     ]
   },
   "searchIndex": [
@@ -339,29 +327,31 @@
     "private tags",
     "wallet analysis",
     "transaction tracking",
-    "on-chain analysis"
+    "on-chain analysis",
+    "mintlify",
+    "documentation"
   ],
   "metadata": {
-    "totalDocuments": 26,
+    "totalDocuments": 27,
     "documentsByCategory": {
-      "overview": 3,
+      "overview": 4,
       "setup": 4,
-      "guide": 2,
+      "guide": 3,
       "examples": 2,
       "reference": 1,
-      "integration": 4,
+      "integration": 3,
       "features": 2,
-      "development": 1,
+      "development": 3,
       "community": 1,
       "security": 1,
       "deployment": 3,
-      "planning": 2,
+      "planning": 1,
       "meta": 2
     },
     "documentsByAudience": {
       "all": 5,
-      "users": 11,
-      "developers": 7,
+      "users": 12,
+      "developers": 8,
       "maintainers": 2
     }
   }
