@@ -1,6 +1,6 @@
 {
   "name": "blockchain-forensic-toolkit",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Professional blockchain forensic analysis toolkit with Etherscan integration, investigation management, and MCP support",
   "main": "index.js",
   "scripts": {

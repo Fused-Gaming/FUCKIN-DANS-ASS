@@ -5,6 +5,72 @@ All notable changes to the Blockchain Forensic Analysis Toolkit will be document
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-12-16
+
+### Fixed
+
+#### Etherscan API V2 Migration
+- **API Deprecation Resolution**: Complete migration from deprecated Etherscan API V1 to V2
+- **Proper V2 Endpoints**: Updated all API calls to use correct `chainid=1` parameter format
+- **Base URL Update**: Changed to `https://api.etherscan.io/v2/api` for V2 compatibility
+- **Endpoint Standardization**: All functions now use consistent V2 API format
+- **Deprecation Warnings**: Eliminated all API deprecation warnings
+
+#### Dependency Updates
+- **Security Vulnerabilities**: Patched all high and medium severity vulnerabilities
+- **Latest Stable Versions**: Updated all MCP server dependencies:
+  - `@modelcontextprotocol/sdk`: 1.0.0 → 1.0.4
+  - `dotenv`: 16.0.0 → 16.4.5  
+  - `ethers`: 6.9.0 → 6.13.2
+  - `zod`: 3.0.0 → 3.23.8
+  - `@types/node`: 20.0.0 → 22.9.1
+  - `typescript`: 5.0.0 → 5.6.3
+
+#### ENS Resolution
+- **Provider Issues**: Fixed Infura provider authentication failures
+- **API-Based ENS**: Implemented ENS lookup using Etherscan API v2 endpoints
+- **Graceful Handling**: Improved error handling for addresses without ENS names
+- **No External Dependencies**: Removed reliance on external JSON-RPC providers
+
+#### MCP Server Improvements
+- **Submodule Management**: Properly committed and referenced MCP server changes
+- **Build Process**: Ensured clean builds after API migration
+- **Error Handling**: Enhanced error reporting and debugging information
+- **Performance**: Optimized API call patterns and response handling
+
+### Improved
+
+#### Integration Testing
+- **Comprehensive Tests**: Verified all 3 core MCP functions with real data:
+  - Balance checking: Fully operational with accurate ETH amounts
+  - Gas price monitoring: Real-time gas price data flowing correctly  
+  - ENS name resolution: Graceful handling for both found and not-found cases
+- **Production Ready**: Confirmed MCP server is fully compatible with Etherscan API V2
+- **Long-term Stability**: No more deprecation warnings or breaking changes
+
+#### Documentation
+- **Migration Guide**: Updated MCP_INTEGRATION.md with V2 API information
+- **Troubleshooting**: Enhanced troubleshooting section for API-related issues
+- **Setup Instructions**: Clarified V2 endpoint configuration requirements
+
+### Security
+
+#### Dependency Hygiene
+- **Vulnerability Resolution**: Fixed all security issues in npm audit
+- **Package Integrity**: Verified all third-party packages have valid signatures
+- **Minimal Footprint**: Removed unnecessary provider dependencies
+
+### Dependencies
+
+#### MCP Server (mcp-etherscan-server)
+- Version bump: 1.0.0 → 1.1.0
+- Description updated to reflect Etherscan API V2 support
+- All dependencies upgraded to latest stable versions
+
+#### Main Toolkit
+- Version bump: 2.0.0 → 2.1.0
+- Updated to fix API compatibility issues
+
 ## [2.0.0] - 2025-12-14
 
 ### Added
