@@ -1,0 +1,25 @@
+# Created with YamlCreate.ps1 v2.4.1
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
+
+PackageIdentifier: Fused-Gaming.blockchain-forensic-toolkit
+PackageVersion: 2.1.0
+Platform:
+- Windows.Desktop
+MinimumOSVersion: 10.0.0.0
+InstallerType: nullsoft
+InstallModes:
+- interactive
+- silent
+- silentWithProgress
+UpgradeBehavior: install
+Installers:
+- Architecture: x64
+  InstallerUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/download/v2.1.0/blockchain-forensic-toolkit-2.1.0-x64.exe
+  InstallerSha256: 8A1B2C3D4E5F67890123456789012345678901234567890123456789012345678
+  Scope: user
+- Architecture: arm64
+  InstallerUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/download/v2.1.0/blockchain-forensic-toolkit-2.1.0-arm64.exe
+  InstallerSha256: 9B2C3D4E5F67890123456789012345678901234567890123456789012345678901
+  Scope: user
+ManifestType: installer
+ManifestVersion: 1.6.0

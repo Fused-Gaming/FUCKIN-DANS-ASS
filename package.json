@@ -3,6 +3,10 @@
   "version": "2.1.0",
   "description": "Professional blockchain forensic analysis toolkit with AI-powered MCP integration, Etherscan API V2 support, and comprehensive investigation management",
   "main": "index.js",
+  "bin": {
+    "forensics": "./bin/forensics.js",
+    "blockchain-forensics": "./bin/forensics.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "getContracts": "node getWalletContracts/index.js",
@@ -19,7 +23,7 @@
     "setup": "npm install && npm run mcp:setup && npm run mcp:test",
     "validate": "npm run mcp:test && npm run investigation:test",
     "quickstart": "npm run setup && npm run forensics",
-    "help": "echo Blockchain Forensic Analysis Toolkit Commands: && echo && echo Core Commands: && echo   npm run forensics - Launch forensic analysis && echo   npm run db - Database browser && echo && echo MCP Commands: && echo   npm run mcp:test - Test MCP server && echo   npm run mcp:setup - Setup MCP integration && echo   npm run mcp:build - Build MCP server && echo && echo Setup: && echo   npm run setup - Full installation && echo   npm run validate - Run all tests && echo   npm run quickstart - Setup + start && echo && echo Examples: && echo   npm run quickstart  # New users && echo   npm run validate     # Verify installation"
+    "help": "node scripts/help.js"
   },
   "keywords": [
     "blockchain",
@@ -45,5 +49,49 @@
     "dotenv": "^17.2.3",
     "play-sound": "^1.1.6",
     "prompts": "^2.4.2"
-  }
+  },
+  "files": [
+    "bin/**",
+    "scripts/**",
+    "forensics/**",
+    "database/**",
+    "intelligence/**",
+    "getWalletContracts/**",
+    "viewHistory/**",
+    "mcp-etherscan-server/**",
+    "voice/**",
+    "voicesoundsarcher/**",
+    "docs/**",
+    "templates/**",
+    "*.md",
+    "*.json",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=7.0.0"
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit/issues"
+  },
+  "homepage": "https://github.com/Fused-Gaming/blockchain-forensic-toolkit#readme",
+  "directories": {
+    "doc": "docs",
+    "lib": "scripts",
+    "bin": "bin"
+  },
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ]
 }

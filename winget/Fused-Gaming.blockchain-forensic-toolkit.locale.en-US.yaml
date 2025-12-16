@@ -1,0 +1,73 @@
+# Created with YamlCreate.ps1 v2.4.1
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.6.0.schema.json
+
+PackageIdentifier: Fused-Gaming.blockchain-forensic-toolkit
+PackageVersion: 2.1.0
+PackageLocale: en-US
+Publisher: Fused-Gaming
+PublisherUrl: https://github.com/Fused-Gaming
+PublisherSupportUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/issues
+Author: Fused-Gaming
+PackageName: Blockchain Forensic Analysis Toolkit
+PackageUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit
+License: ISC
+LicenseUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/blob/master/LICENSE
+Copyright: Copyright (c) Fused-Gaming
+CopyrightUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/blob/master/LICENSE
+ShortDescription: Professional blockchain forensic analysis toolkit with AI-powered MCP integration
+Description: |-
+  A comprehensive, open-source forensic toolkit designed for investigating blockchain-based criminal activity, including illegal gambling operations, fraud networks, money laundering, and asset theft. Built with a focus on evidence quality, court admissibility, and investigative efficiency.
+
+  Key Features:
+  - AI-Powered Analysis via Model Context Protocol (MCP)
+  - Etherscan API V2 integration with auto-import
+  - Multi-chain support (15+ blockchain networks)
+  - Investigation management with evidence tracking
+  - Professional report generation (court-ready)
+  - Real-time blockchain data queries through AI assistants
+  - Transaction history collection and pattern detection
+  - Address attribution and threat intelligence
+Moniker: forensics
+Tags:
+  blockchain,forensics,security,investigation,crypto,ethereum,etherscan,mcp,ai,reporting
+ReleaseNotes: |-
+  Version 2.1.0 - Etherscan API V2 Migration Release
+  
+  🚀 Critical Updates:
+  - Complete migration to Etherscan API V2 (eliminates deprecation warnings)
+  - All MCP functions operational with real blockchain data
+  - Enhanced AI integration with comprehensive help system
+  - Multi-distribution package support (npm, winget, pnpm)
+  
+  ✅ New Features:
+  - Interactive command help system (forensics help)
+  - Global executable installation
+  - Quick start setup wizard
+  - Installation validation tools
+  - Cross-platform binary support
+  
+  🛡️ Security & Stability:
+  - All dependencies updated to latest stable versions
+  - Security vulnerabilities patched and resolved
+  - Production-ready with enterprise-grade reliability
+  - Complete security audit and package signing
+
+  📦 Distribution:
+  - npm global installation now available
+  - Windows Package Manager (winget) support
+  - Pnpm registry compatibility
+  - Direct binary executable (forensics command)
+
+ReleaseNotesUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/releases/tag/v2.1.0
+PurchaseUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit
+Documentations:
+- DocumentLabel: Main Documentation
+  DocumentUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit#readme
+- DocumentLabel: Installation Guide
+  DocumentUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/blob/master/DATABASE_SETUP.md
+- DocumentLabel: MCP Integration
+  DocumentUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/blob/master/MCP_INTEGRATION.md
+- DocumentLabel: API Documentation
+  DocumentUrl: https://github.com/Fused-Gaming/blockchain-forensic-toolkit/blob/master/docs/
+ManifestType: defaultLocale
+ManifestVersion: 1.6.0
