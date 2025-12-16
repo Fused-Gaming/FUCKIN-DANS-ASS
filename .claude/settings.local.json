@@ -9,7 +9,17 @@
       "Bash(npm run getContracts:*)",
       "Bash(npm run viewHistory:*)",
       "Bash(powershell:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git commit:*)",
+      "Bash(gh --version:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git push:*)",
+      "Bash(cat:*)",
+      "Bash(python -m pip install:*)",
+      "Bash(git checkout:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)"
     ]
   }
 }

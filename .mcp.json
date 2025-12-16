@@ -2,14 +2,14 @@
   "mcpServers": {
     "etherscan": {
       "description": "Etherscan MCP Server for blockchain data integration",
-      "command": "npx",
+      "command": "node",
       "args": [
-        "-y",
-        "@xiaok/etherscan-mcp-server"
+        "mcp-etherscan-server/build/index.js"
       ],
       "env": {
-        "ETHERSCAN_API_KEY": "${ETHERSCAN_API_KEY}"
-      }
+        "ETHERSCAN_API_KEY": "27WCM8FJI5Y2Q3BM61AGRRC6497QCEWNSX"
+      },
+      "cwd": "K:\\git\\alchemy-api"
     }
   },
   "version": "1.0.0",
