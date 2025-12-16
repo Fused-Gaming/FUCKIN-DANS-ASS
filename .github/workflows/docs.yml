@@ -1,0 +1,168 @@
+name: Update Documentation
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - master
+
+jobs:
+  update-docs:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get package info
+        id: package-info
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+          echo "name=$(node -p "require('./package.json').name")" >> $GITHUB_OUTPUT
+          echo "description=$(node -p "require('./package.json').description")" >> $GITHUB_OUTPUT
+
+      - name: Get PR info
+        id: pr-info
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+          PR_MERGED_AT="${{ github.event.pull_request.merged_at }}"
+
+          echo "title=${PR_TITLE}" >> $GITHUB_OUTPUT
+          echo "number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+          echo "author=${PR_AUTHOR}" >> $GITHUB_OUTPUT
+          echo "merged_at=${PR_MERGED_AT}" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG
+        run: |
+          VERSION="${{ steps.package-info.outputs.version }}"
+          DATE=$(date +%Y-%m-%d)
+          PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          PR_NUMBER="${{ steps.pr-info.outputs.number }}"
+          PR_AUTHOR="${{ steps.pr-info.outputs.author }}"
+
+          # Create CHANGELOG.md if it doesn't exist
+          if [ ! -f CHANGELOG.md ]; then
+            cat > CHANGELOG.md << 'CHANGELOG_HEADER'
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+CHANGELOG_HEADER
+          fi
+
+          # Check if this version already exists in changelog
+          if ! grep -q "## \[${VERSION}\]" CHANGELOG.md; then
+            # Create temporary file with new entry
+            {
+              head -n 6 CHANGELOG.md
+              echo ""
+              echo "## [${VERSION}] - ${DATE}"
+              echo ""
+              echo "### Changed"
+              echo "- ${PR_TITLE} (#${PR_NUMBER}) by @${PR_AUTHOR}"
+              echo ""
+              tail -n +7 CHANGELOG.md
+            } > CHANGELOG.tmp
+
+            mv CHANGELOG.tmp CHANGELOG.md
+          fi
+
+      - name: Update README with latest version
+        run: |
+          VERSION="${{ steps.package-info.outputs.version }}"
+
+          # Update version badges in README if they exist
+          if [ -f README.md ]; then
+            sed -i "s/version-[0-9]*\.[0-9]*\.[0-9]*/version-${VERSION}/g" README.md || true
+            sed -i "s/v[0-9]*\.[0-9]*\.[0-9]*/v${VERSION}/g" README.md || true
+          fi
+
+      - name: Create release notes
+        run: |
+          VERSION="${{ steps.package-info.outputs.version }}"
+          NAME="${{ steps.package-info.outputs.name }}"
+          DESCRIPTION="${{ steps.package-info.outputs.description }}"
+          PR_TITLE="${{ steps.pr-info.outputs.title }}"
+          PR_NUMBER="${{ steps.pr-info.outputs.number }}"
+          DATE=$(date +%Y-%m-%d)
+
+          mkdir -p docs/releases
+
+          cat > "docs/releases/v${VERSION}.md" << RELEASE_NOTES
+# Release v${VERSION}
+
+**Release Date:** ${DATE}
+
+## Package Information
+
+- **Name:** ${NAME}
+- **Version:** ${VERSION}
+- **Description:** ${DESCRIPTION}
+
+## Changes
+
+${PR_TITLE} (#${PR_NUMBER})
+
+## Installation
+
+\`\`\`bash
+npm install -g ${NAME}@${VERSION}
+\`\`\`
+
+## NPM Package
+
+- [View on NPM](https://www.npmjs.com/package/${NAME}/v/${VERSION})
+- [GitHub Release](https://github.com/${{ github.repository }}/releases/tag/v${VERSION})
+
+## Documentation
+
+- [README](../../README.md)
+- [CHANGELOG](../../CHANGELOG.md)
+- [Installation Guide](../INSTALLATION.md)
+- [Quick Start Guide](../QUICK_START.md)
+
+---
+
+*This release was automatically generated from PR #${PR_NUMBER}*
+RELEASE_NOTES
+
+      - name: Commit documentation updates
+        run: |
+          git add CHANGELOG.md README.md docs/releases/ || true
+
+          if git diff --staged --quiet; then
+            echo "No documentation changes to commit"
+          else
+            git commit -m "docs: update documentation for v${{ steps.package-info.outputs.version }}
+
+- Update CHANGELOG with PR #${{ steps.pr-info.outputs.number }}
+- Create release notes for v${{ steps.package-info.outputs.version }}
+- Update version references in README
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
+
+            git push origin master
+          fi

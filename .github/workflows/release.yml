@@ -29,9 +29,27 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Get current version
+      - name: Get package info
         id: package-version
-        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+        run: |
+          echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+          echo "name=$(node -p "require('./package.json').name")" >> $GITHUB_OUTPUT
+
+      - name: Extract changelog for version
+        id: changelog
+        run: |
+          VERSION="${{ steps.package-version.outputs.version }}"
+
+          # Extract changelog entry if it exists
+          if [ -f CHANGELOG.md ] && grep -q "## \[${VERSION}\]" CHANGELOG.md; then
+            # Extract content between this version and the next version header
+            CHANGELOG_CONTENT=$(awk "/## \[${VERSION}\]/,/## \[.*\]/ {if (/## \[.*\]/ && !/## \[${VERSION}\]/) exit; print}" CHANGELOG.md | tail -n +2)
+            echo "content<<EOF" >> $GITHUB_OUTPUT
+            echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "content=No changelog entry found." >> $GITHUB_OUTPUT
+          fi
 
       - name: Check if tag exists
         id: check-tag
@@ -54,16 +72,49 @@ jobs:
         with:
           script: |
             const version = '${{ steps.package-version.outputs.version }}';
+            const packageName = '${{ steps.package-version.outputs.name }}';
             const prNumber = context.payload.pull_request.number;
             const prTitle = context.payload.pull_request.title;
             const prBody = context.payload.pull_request.body || '';
+            const changelog = `${{ steps.changelog.outputs.content }}`;
+
+            const releaseBody = `## Package Information
+
+**Name:** \`${packageName}\`
+**Version:** \`${version}\`
+
+## Installation
+
+\`\`\`bash
+npm install -g ${packageName}@${version}
+\`\`\`
+
+## Changes
+
+${changelog}
+
+## Links
+
+- [npm Package](https://www.npmjs.com/package/${packageName}/v/${version})
+- [Documentation](https://github.com/${context.repo.owner}/${context.repo.repo}#readme)
+- [Changelog](https://github.com/${context.repo.owner}/${context.repo.repo}/blob/master/CHANGELOG.md)
+
+## Pull Request
+
+**PR #${prNumber}:** ${prTitle}
+
+${prBody}
+
+---
+
+*This release was automatically generated from merged PR #${prNumber}*`;
 
             await github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: `v${version}`,
-              name: `Release v${version}`,
-              body: `## Changes\n\n${prTitle}\n\n${prBody}\n\n**PR:** #${prNumber}`,
+              name: `${packageName} v${version}`,
+              body: releaseBody,
               draft: false,
               prerelease: false
             });
