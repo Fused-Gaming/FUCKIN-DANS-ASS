@@ -30,7 +30,11 @@
     "npm:publish:dryrun": "npm pack --dryrun",
     "npm:verify": "npm install -g blockchain-forensic-toolkit && forensics --version",
     "npm:status": "node scripts/npm-status.js",
-    "npm:try-publish": "node scripts/try-publish.js"
+    "npm:try-publish": "node scripts/try-publish.js",
+    "version:bump:major": "node scripts/bump-version.js major",
+    "version:bump:minor": "node scripts/bump-version.js minor",
+    "version:bump:patch": "node scripts/bump-version.js patch",
+    "version:check": "node -p \"require('./package.json').version\""
   },
   "keywords": [
     "blockchain",
