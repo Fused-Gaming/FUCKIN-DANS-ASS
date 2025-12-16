@@ -393,11 +393,17 @@ async function importLabelsForAddresses(transactions, chainName) {
  */
 async function collectAddressHistory(address, rpcUrl, chainName, options = {}) {
   try {
+    // Validate RPC URL
+    if (!rpcUrl || rpcUrl === 'undefined') {
+      console.log('⚠️ No RPC URL provided - skipping transaction fetch');
+      return { transactions: [] };
+    }
+
     const transactions = await fetchTransactionHistory(address, rpcUrl, chainName, options);
 
     if (transactions.length === 0) {
       console.log('No transactions found.');
-      return [];
+      return { transactions: [] };
     }
 
     // Save to database
@@ -408,10 +414,10 @@ async function collectAddressHistory(address, rpcUrl, chainName, options = {}) {
     // Import Etherscan labels for all addresses in transactions
     await importLabelsForAddresses(transactions, chainName);
 
-    return transactions;
+    return { transactions };
   } catch (error) {
     console.error('Error collecting address history:', error);
-    throw error;
+    return { transactions: [], error: error.message };
   }
 }
 

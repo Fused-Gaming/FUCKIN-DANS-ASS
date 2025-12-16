@@ -51,10 +51,17 @@ async function runTestInvestigation() {
 
     // 3. Test transaction history collection
     console.log('\n📊 Collecting transaction history...');
-    const history = await collectAddressHistory(
-      TEST_ADDRESSES.UNISWAP_ROUTER,
-      process.env.ETH_MAINNET_RPC
-    );
+    let history = { transactions: [] };
+
+    // Only fetch transactions if RPC URL is configured
+    if (process.env.ETH_MAINNET_RPC && process.env.ETH_MAINNET_RPC !== 'undefined') {
+      history = await collectAddressHistory(
+        TEST_ADDRESSES.UNISWAP_ROUTER,
+        process.env.ETH_MAINNET_RPC
+      );
+    } else {
+      console.log('⚠️ ETH_MAINNET_RPC not configured - skipping transaction collection');
+    }
     console.log(`✅ Collected ${history.transactions?.length || 0} transactions`);
 
     // 4. Test address tagging

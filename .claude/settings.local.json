@@ -24,7 +24,9 @@
       "Bash(npm pack:*)",
       "Bash(gh pr merge:*)",
       "Bash(git pull:*)",
-      "Bash(npm run validate:*)"
+      "Bash(npm run validate:*)",
+      "Bash(git merge:*)",
+      "Bash(git stash:*)"
     ]
   }
 }
