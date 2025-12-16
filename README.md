@@ -483,6 +483,41 @@ All analyzed data is **public blockchain information**:
 
 ---
 
+## 📦 Version Management & Releases
+
+This project uses a VERSION.md system for managing releases and versioning.
+
+### Current Version
+See [VERSION.md](VERSION.md) for the current version and changelog.
+
+### Version Bumping
+To bump the version for a new release:
+
+```bash
+# Bump patch version (bug fixes)
+npm run version:bump:patch
+
+# Bump minor version (new features)
+npm run version:bump:minor
+
+# Bump major version (breaking changes)
+npm run version:bump:major
+
+# Check current version
+npm run version:check
+```
+
+### Release Process
+1. Update [VERSION.md](VERSION.md) with changes
+2. Run version bump script
+3. Update [CHANGELOG.md](CHANGELOG.md) if needed
+4. Create a pull request
+5. Merge PR to master to trigger automated release
+
+Releases are automatically created via GitHub Actions when a PR is merged to master.
+
+---
+
 ## 📄 License
 
 This project is licensed under the **ISC License** - see the [LICENSE](LICENSE) file for details.
