@@ -1,0 +1,99 @@
+name: Discord Notifications
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  workflow_run:
+    workflows: ["Build", "Deploy", "Test"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set context variables
+        id: vars
+        run: |
+          echo "REPO=${GITHUB_REPOSITORY}" >> $GITHUB_ENV
+          echo "ACTOR=${GITHUB_ACTOR}" >> $GITHUB_ENV
+          echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          echo "SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+          echo "URL=https://github.com/${GITHUB_REPOSITORY}" >> $GITHUB_ENV
+
+      # ─────────────────────────────────────────────
+      # PUSH / COMMIT NOTIFICATION
+      # ─────────────────────────────────────────────
+      - name: Discord — Commit / Push
+        if: github.event_name == 'push'
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Bot
+          embed-title: "📦 New Commit Pushed"
+          embed-description: |
+            **Repository:** `${{ env.REPO }}`
+            **Branch:** `${{ env.BRANCH }}`
+            **Commit:** `${{ env.SHA }}`
+            **Author:** `${{ env.ACTOR }}`
+          embed-url: https://github.com/${{ env.REPO }}/commit/${{ github.sha }}
+          embed-color: 7506394
+
+      # ─────────────────────────────────────────────
+      # PULL REQUEST NOTIFICATION
+      # ─────────────────────────────────────────────
+      - name: Discord — Pull Request
+        if: github.event_name == 'pull_request'
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Bot
+          embed-title: >
+            🔀 Pull Request
+            ${{ github.event.action == 'closed' && github.event.pull_request.merged && '(Merged)' || github.event.action }}
+          embed-description: |
+            **Title:** ${{ github.event.pull_request.title }}
+            **Author:** ${{ github.event.pull_request.user.login }}
+            **Base → Head:** `${{ github.event.pull_request.base.ref }} → ${{ github.event.pull_request.head.ref }}`
+          embed-url: ${{ github.event.pull_request.html_url }}
+          embed-color: ${{ github.event.pull_request.merged && 3066993 || 15105570 }}
+
+      # ─────────────────────────────────────────────
+      # WORKFLOW STATUS (BUILD / DEPLOY / TEST)
+      # ─────────────────────────────────────────────
+      - name: Discord — Workflow Status
+        if: github.event_name == 'workflow_run'
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Bot
+          embed-title: >
+            ${{ github.event.workflow_run.conclusion == 'success' && '✅ Workflow Succeeded' || '❌ Workflow Failed' }}
+          embed-description: |
+            **Workflow:** ${{ github.event.workflow_run.name }}
+            **Status:** ${{ github.event.workflow_run.conclusion }}
+            **Triggered by:** ${{ github.event.workflow_run.actor.login }}
+            **Branch:** ${{ github.event.workflow_run.head_branch }}
+          embed-url: ${{ github.event.workflow_run.html_url }}
+          embed-color: ${{ github.event.workflow_run.conclusion == 'success' && 3066993 || 15158332 }}
+
+      # ─────────────────────────────────────────────
+      # TEST FAILURE (EXPLICIT)
+      # ─────────────────────────────────────────────
+      - name: Discord — Test Failure Alert
+        if: failure()
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Bot
+          embed-title: "🧪 Tests Failed"
+          embed-description: |
+            **Repository:** `${{ env.REPO }}`
+            **Branch:** `${{ env.BRANCH }}`
+            **Commit:** `${{ env.SHA }}`
+            **Actor:** `${{ env.ACTOR }}`
+          embed-url: https://github.com/${{ env.REPO }}/actions
+          embed-color: 15158332
